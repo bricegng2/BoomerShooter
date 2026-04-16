@@ -8,11 +8,20 @@ public class PlayerController : MonoBehaviour
     Vector2 input = Vector2.zero;
     Vector2 lookInput = Vector2.zero;
 
+    [SerializeField]
+    Rigidbody playerRigidbody;
+
+    public Vector3 jump;
+    public float jumpForce = 2.0f;
+    public bool isGrounded;
+
     float mouseX = 25.0f;
     float mouseY = 25.0f;
     Vector2 playerRotation = Vector2.zero;
     Vector2 verticalLookBounds = new Vector2(-85, 85);
     public Camera playerCamera;
+
+    public Gun gun;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = true;
+
+        jump = new Vector3(0.0f, 2.0f, 0.0f);
     }
 
     // Update is called once per frame
@@ -58,6 +69,15 @@ public class PlayerController : MonoBehaviour
         input = context.ReadValue<Vector2>();
     }
 
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (isGrounded == true)
+        {
+            playerRigidbody.AddForce(jump * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
+    }
+
     public void OnLook(InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
@@ -65,9 +85,29 @@ public class PlayerController : MonoBehaviour
 
     public void OnLeftClick(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (!context.started)
         {
-            Debug.Log("Left Clicked");
+            return;
         }
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hitInfo, 100.0f))
+        {
+            if (hitInfo.collider.CompareTag("Enemy"))
+            {
+                Enemy enemy = hitInfo.collider.GetComponent<Enemy>();;
+
+                enemy.DoDamage(gun.GetDamage());
+            }
+        }
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        isGrounded = true;
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
     }
 }
