@@ -9,18 +9,33 @@ public class Enemy : MonoBehaviour
 
     public NavMeshAgent agent;
 
+    public Projectile projectile;
+    float timerToFireProj;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = FindAnyObjectByType<PlayerController>();
-        
-        agent.SetDestination(player.transform.position);
+
+        DecideDestination();
+
+        timerToFireProj = Constants.c_enemyProjectile;
     }
 
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(player.transform.position);
+        Debug.Log(Vector3.Distance(transform.position, player.transform.position));
+
+        DecideDestination();
+
+        timerToFireProj -= 0.1f;
+        if (timerToFireProj <= 0.0f)
+        {
+            Instantiate(projectile, transform.position, Quaternion.identity);
+
+            timerToFireProj = Constants.c_enemyProjectile;
+        }
     }
 
     public void DoDamage(int damage)
@@ -32,5 +47,17 @@ public class Enemy : MonoBehaviour
         }
         // add this object to a pool possibly
         Debug.Log(health);
+    }
+
+    void DecideDestination()
+    {
+        if (Vector3.Distance(transform.position, player.transform.position) > Constants.c_minDistanceToPlayer)
+        {
+            transform.position = DataManager.Instance.destinationManager.PickDestination();
+        }
+        else
+        {
+            agent.SetDestination(player.transform.position);
+        }
     }
 }

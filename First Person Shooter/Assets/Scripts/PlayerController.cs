@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 2.0f;
     public bool isGrounded;
 
-    float mouseX = 25.0f;
-    float mouseY = 25.0f;
+    float mouseXSensitivity = 15.0f;
+    float mouseYSensitivity = 15.0f;
     Vector2 playerRotation = Vector2.zero;
     Vector2 verticalLookBounds = new Vector2(-85, 85);
     public Camera playerCamera;
@@ -49,8 +49,8 @@ public class PlayerController : MonoBehaviour
         // look rotation
         if (lookInput != Vector2.zero)
         {
-            float xMovement = lookInput.x * mouseX * Time.deltaTime * 2.0f;
-            float yMovement = lookInput.y * mouseY * Time.deltaTime * 2.0f;
+            float xMovement = lookInput.x * mouseXSensitivity * Time.deltaTime * 2.0f;
+            float yMovement = lookInput.y * mouseYSensitivity * Time.deltaTime * 2.0f;
 
             playerRotation.x -= yMovement;
             playerRotation.x = Mathf.Clamp(playerRotation.x, verticalLookBounds.x, verticalLookBounds.y);
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
             if (hitInfo.collider.CompareTag("Enemy"))
             {
                 Enemy enemy = hitInfo.collider.GetComponent<Enemy>();;
-
+                
                 enemy.DoDamage(gun.GetDamage());
             }
         }
