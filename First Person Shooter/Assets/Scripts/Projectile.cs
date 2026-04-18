@@ -9,7 +9,6 @@ public class Projectile : MonoBehaviour
     Vector3 direction;
     float timeToDestroy;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,9 +35,9 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             //player.gun.DoDamage(1);
             this.gameObject.SetActive(false); // add this to an object pool 

@@ -7,7 +7,7 @@ public class DestinationManager : MonoBehaviour
     List<Vector3> destinations = new List<Vector3>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         GameObject[] destinationObjects = GameObject.FindGameObjectsWithTag("NPCDestination");
         for (int i = 0; i < destinationObjects.Length; i++)
@@ -24,7 +24,7 @@ public class DestinationManager : MonoBehaviour
 
     public Vector3 PickDestination()
     {
-        int randomIndex = Random.Range(0, destinations.Count);
+        int randomIndex = Random.Range(0, destinations.Count - 1);
         return destinations[randomIndex];
     }
 }
