@@ -35,7 +35,11 @@ public class Enemy : MonoBehaviour
     {
         player = FindAnyObjectByType<PlayerController>();
 
-        DecideDestination();
+        SphereCollider detectionZone = gameObject.AddComponent<SphereCollider>();
+        detectionZone.isTrigger = true;
+        detectionZone.radius = Constants.c_minDistanceToPlayerWhenRandomDest;
+
+        SetDestination(EEnemyDestination.RandomDestination);
 
         timerToFireProj = Constants.c_enemyProjectile;
 
@@ -45,20 +49,23 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Vector3.Distance(transform.position, player.transform.position));
-
-        DecideDestination();
-
         if (currentDestinationType == EEnemyDestination.RandomDestination)
         {
-            timerToSwitchDestination -= Time.deltaTime;
-            if (timerToSwitchDestination <= 0.0f)
+            bool reached = agent.remainingDistance <= agent.stoppingDistance;
+
+            if (reached == true)
             {
-                Debug.Log(currentDestinationType);
-                
-                timerToSwitchDestination = Constants.c_timeToSwitchDestination;
-                GetDestination(EEnemyDestination.RandomDestination);
+                timerToSwitchDestination -= Time.deltaTime;
+                if (timerToSwitchDestination <= 0.0f)
+                {
+                    timerToSwitchDestination = Constants.c_timeToSwitchDestination;
+                    SetDestination(EEnemyDestination.RandomDestination);
+                }
             }
+        }
+        else if (currentDestinationType == EEnemyDestination.PlayerDestination)
+        {
+            SetDestination(EEnemyDestination.PlayerDestination);
         }
 
         timerToFireProj -= 0.1f;
@@ -84,37 +91,45 @@ public class Enemy : MonoBehaviour
         Debug.Log(health);
     }
 
-    void DecideDestination()
+    void OnTriggerEnter(Collider other)
     {
-        EEnemyDestination destination = EEnemyDestination.None;
-
-        if ((Vector3.Distance(transform.position, player.transform.position) > Constants.c_minDistanceToPlayer) && currentDestinationType == EEnemyDestination.PlayerDestination)
+        if (other.GetComponent<PlayerController>() != null)
         {
-            destination = EEnemyDestination.RandomDestination;
+            SetDestination(EEnemyDestination.PlayerDestination);
         }
-        else if (Vector3.Distance(transform.position, player.transform.position) <= Constants.c_minDistanceToPlayer)
-        {
-            destination = EEnemyDestination.PlayerDestination;
-        }
+    }
 
-        GetDestination(destination);
+    void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlayerController>() != null)
+        {
+            SetDestination(EEnemyDestination.RandomDestination);
+        }
     }
 
     void SetState()
     {
-        
+
     }
 
-    void GetDestination(EEnemyDestination destination)
+    void SetDestination(EEnemyDestination destinationType)
     {
-        currentDestinationType = destination;
+        currentDestinationType = destinationType;
 
-        if (destination == EEnemyDestination.PlayerDestination)
+        if (destinationType == EEnemyDestination.PlayerDestination)
         {
+            SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
+            detectionZone.radius = Constants.c_minDistanceToPlayerWhenPlayerDest;
+
             agent.SetDestination(player.transform.position);
         }
-        else if (destination == EEnemyDestination.RandomDestination)
+        else if (destinationType == EEnemyDestination.RandomDestination)
         {
+            timerToSwitchDestination = Constants.c_timeToSwitchDestination;
+
+            SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
+            detectionZone.radius = Constants.c_minDistanceToPlayerWhenRandomDest;
+
             agent.SetDestination(DataManager.Instance.destinationManager.PickDestination());
         }
     }
