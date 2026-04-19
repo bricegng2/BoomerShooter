@@ -30,10 +30,20 @@ public class Enemy : MonoBehaviour
     EEnemyDestination currentDestinationType = EEnemyDestination.None;
     float timerToSwitchDestination;
 
+    bool isDamaged = false;
+    float timerToResetMaterial;
+    MeshRenderer meshRenderer;
+    Material defaultMaterial;
+    [SerializeField]
+    Material damagedMaterial;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = FindAnyObjectByType<PlayerController>();
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        defaultMaterial = meshRenderer.material;
 
         SphereCollider detectionZone = gameObject.AddComponent<SphereCollider>();
         detectionZone.isTrigger = true;
@@ -46,6 +56,8 @@ public class Enemy : MonoBehaviour
         timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
 
         health = Constants.c_enemy_baseHealth;
+
+        timerToResetMaterial = Constants.c_enemy_timerToResetMaterial;
     }
 
     // Update is called once per frame
@@ -80,11 +92,26 @@ public class Enemy : MonoBehaviour
                 timerToFireProj = Constants.c_enemy_projFireRate;
             }
         }
+
+        if (isDamaged)
+        {
+            timerToResetMaterial -= Time.deltaTime;
+            if (timerToResetMaterial <= 0.0f)
+            {
+                isDamaged = false;
+                timerToResetMaterial = Constants.c_enemy_timerToResetMaterial;
+                meshRenderer.material = defaultMaterial;
+            }
+        }
     }
 
     public void DoDamage(int damage)
     {
         health -= damage;
+
+        isDamaged = true;
+        meshRenderer.material = damagedMaterial;
+
         if (health <= 0)
         {
             this.gameObject.SetActive(false);

@@ -6,6 +6,7 @@ public class DataManager : MonoBehaviour
 
     public static DataManager Instance { get { return _instance; } }
     public DestinationManager destinationManager { get; private set; }
+    public InventoryManager inventoryManager { get; private set; }
 
     void Awake()
     {
@@ -19,6 +20,7 @@ public class DataManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(this);
             destinationManager = gameObject.GetComponent<DestinationManager>();
+            inventoryManager = gameObject.GetComponent<InventoryManager>();
         }
     }
 

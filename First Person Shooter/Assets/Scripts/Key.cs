@@ -1,14 +1,23 @@
 using UnityEngine;
 
-public abstract class PickUp : MonoBehaviour
+public class Key : MonoBehaviour
 {
-    protected PlayerController player;
+    public KeyData keyData;
+
+    PlayerController player;
 
     float rotationSpeed = 75.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected virtual void Start()
+    void Start()
     {
+        MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>();
+
+        if (meshRenderer != null && keyData != null)
+        {
+            meshRenderer.material = keyData.keyMaterial;
+        }
+
         player = FindAnyObjectByType<PlayerController>();
     }
 
@@ -19,14 +28,15 @@ public abstract class PickUp : MonoBehaviour
         transform.position = new Vector3(transform.position.x, Mathf.Sin(Time.time) * 0.2f + 0.7f, transform.position.z);
     }
 
-    protected abstract void ApplyPickUpEffect();
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            ApplyPickUpEffect();
-            this.gameObject.SetActive(false); // add this to an object pool
+            DataManager.Instance.inventoryManager.keys.Add(keyData);
+
+            player.playerHUD.UpdateKeys();
+
+            this.gameObject.SetActive(false); // maybe add this to an object pool
         }
     }
 }

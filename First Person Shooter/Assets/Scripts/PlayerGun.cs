@@ -4,7 +4,7 @@ public class PlayerGun : MonoBehaviour
 {
     int damage = 5;
 
-    int ammo = 50;
+    int ammo = 50; // move the ammo stuff into the inventory manager later
 
     PlayerHUDController playerHUD;
 

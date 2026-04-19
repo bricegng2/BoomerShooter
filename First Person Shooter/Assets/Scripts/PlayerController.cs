@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody playerRigidbody;
 
     public Vector3 jump;
-    public float jumpForce = 2.0f;
+    public float jumpForce = 10.0f;
     public bool isGrounded;
 
     float mouseXSensitivity = 15.0f;
@@ -25,8 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public int health = 100;
     public int armour = 0;
-    [SerializeField]
-    PlayerHUDController playerHUD;
+    public PlayerHUDController playerHUD;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,7 +33,7 @@ public class PlayerController : MonoBehaviour
         position = transform.position;
 
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        UnityEngine.Cursor.visible = true;
+        UnityEngine.Cursor.visible = false;
 
         jump = new Vector3(0.0f, 2.0f, 0.0f);
     }
@@ -103,9 +102,14 @@ public class PlayerController : MonoBehaviour
         input = context.ReadValue<Vector2>();
     }
 
-    // this needs to be fixed
+    // add bunny hopping
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!context.started)
+        {
+            return;
+        }
+
         if (isGrounded == true)
         {
             playerRigidbody.AddForce(jump * jumpForce, ForceMode.Impulse);
@@ -134,6 +138,30 @@ public class PlayerController : MonoBehaviour
                 Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
                 
                 enemy.DoDamage(gun.GetDamage());
+            }
+        }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (!context.started)
+        {
+            return;
+        }
+
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hitInfo, 10.0f))
+        {
+            if (hitInfo.collider.CompareTag("Door"))
+            {
+                Door door = hitInfo.collider.GetComponent<Door>();
+
+                for (int i = 0; i < DataManager.Instance.inventoryManager.keys.Count; i++)
+                {
+                    if (DataManager.Instance.inventoryManager.keys[i].keyType == (EKeyType)door.doorData.doorType)
+                    {
+                        door.doorState = EDoorState.Opening;
+                    }
+                }
             }
         }
     }
