@@ -17,7 +17,7 @@ public enum EEnemyDestination
 
 public class Enemy : MonoBehaviour
 {
-    int health = 10;
+    int health;
 
     PlayerController player;
 
@@ -37,13 +37,15 @@ public class Enemy : MonoBehaviour
 
         SphereCollider detectionZone = gameObject.AddComponent<SphereCollider>();
         detectionZone.isTrigger = true;
-        detectionZone.radius = Constants.c_minDistanceToPlayerWhenRandomDest;
+        detectionZone.radius = Constants.c_enemy_minDistanceToPlayerWhenRandomDest;
 
         SetDestination(EEnemyDestination.RandomDestination);
 
-        timerToFireProj = Constants.c_enemyProjectile;
+        timerToFireProj = Constants.c_enemy_projFireRate;
 
-        timerToSwitchDestination = Constants.c_timeToSwitchDestination;
+        timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
+
+        health = Constants.c_enemy_baseHealth;
     }
 
     // Update is called once per frame
@@ -58,7 +60,7 @@ public class Enemy : MonoBehaviour
                 timerToSwitchDestination -= Time.deltaTime;
                 if (timerToSwitchDestination <= 0.0f)
                 {
-                    timerToSwitchDestination = Constants.c_timeToSwitchDestination;
+                    timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
                     SetDestination(EEnemyDestination.RandomDestination);
                 }
             }
@@ -66,17 +68,17 @@ public class Enemy : MonoBehaviour
         else if (currentDestinationType == EEnemyDestination.PlayerDestination)
         {
             SetDestination(EEnemyDestination.PlayerDestination);
-        }
 
-        timerToFireProj -= 0.1f;
-        if (timerToFireProj <= 0.0f)
-        {
-            if (projectile != null)
+            timerToFireProj -= 0.1f;
+            if (timerToFireProj <= 0.0f)
             {
-                Instantiate(projectile, transform.position, Quaternion.identity);
-            }
+                if (projectile != null)
+                {
+                    Instantiate(projectile, transform.position, Quaternion.identity);
+                }
 
-            timerToFireProj = Constants.c_enemyProjectile;
+                timerToFireProj = Constants.c_enemy_projFireRate;
+            }
         }
     }
 
@@ -119,16 +121,16 @@ public class Enemy : MonoBehaviour
         if (destinationType == EEnemyDestination.PlayerDestination)
         {
             SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
-            detectionZone.radius = Constants.c_minDistanceToPlayerWhenPlayerDest;
+            detectionZone.radius = Constants.c_enemy_minDistanceToPlayerWhenPlayerDest;
 
             agent.SetDestination(player.transform.position);
         }
         else if (destinationType == EEnemyDestination.RandomDestination)
         {
-            timerToSwitchDestination = Constants.c_timeToSwitchDestination;
+            timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
 
             SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
-            detectionZone.radius = Constants.c_minDistanceToPlayerWhenRandomDest;
+            detectionZone.radius = Constants.c_enemy_minDistanceToPlayerWhenRandomDest;
 
             agent.SetDestination(DataManager.Instance.destinationManager.PickDestination());
         }

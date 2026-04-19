@@ -18,9 +18,9 @@ public class Projectile : MonoBehaviour
         
         direction = target - transform.position;
 
-        speed = Constants.c_enemyProjSpeed;
+        speed = Constants.c_enemy_projSpeed;
 
-        timeToDestroy = Constants.c_timeToDestroyProj;
+        timeToDestroy = Constants.c_enemy_timeToDestroyProj;
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //player.gun.DoDamage(1);
+            player.DoDamage(Constants.c_enemy_projDamage);
             this.gameObject.SetActive(false); // add this to an object pool 
         }
     }

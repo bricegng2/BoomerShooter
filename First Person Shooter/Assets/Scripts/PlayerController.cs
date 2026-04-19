@@ -21,7 +21,12 @@ public class PlayerController : MonoBehaviour
     Vector2 verticalLookBounds = new Vector2(-85, 85);
     public Camera playerCamera;
 
-    public Gun gun;
+    public PlayerGun gun;
+
+    public int health = 100;
+    public int armour = 0;
+    [SerializeField]
+    PlayerHUDController playerHUD;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -64,11 +69,41 @@ public class PlayerController : MonoBehaviour
         // --------------------
     }
 
+    public void DoDamage(int damage)
+    {
+        if (armour > 0)
+        {
+            armour -= damage;
+            if (armour <= 0)
+            {
+                health += armour;
+                playerHUD.UpdateHealth(health);
+                armour = 0;
+            }
+            playerHUD.UpdateArmour(armour);
+            return;
+        }
+
+        health -= damage;
+        if (health <= 0)
+        {
+            health = 0;
+        }
+        playerHUD.UpdateHealth(health);
+    }
+
+    public void ModArmour(int modAmount)
+    {
+        armour += modAmount;
+        playerHUD.UpdateArmour(armour);
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         input = context.ReadValue<Vector2>();
     }
 
+    // this needs to be fixed
     public void OnJump(InputAction.CallbackContext context)
     {
         if (isGrounded == true)
@@ -90,11 +125,13 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        gun.Shoot();
+
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hitInfo, 100.0f))
         {
             if (hitInfo.collider.CompareTag("Enemy"))
             {
-                Enemy enemy = hitInfo.collider.GetComponent<Enemy>();;
+                Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
                 
                 enemy.DoDamage(gun.GetDamage());
             }
