@@ -17,5 +17,16 @@
             <ui:VisualElement name="BlueKey" style="flex-grow: 1; background-color: rgb(45, 46, 185); width: 76px; min-width: 76px; max-width: 76px; height: 76px; min-height: 76px; max-height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; align-content: flex-start; justify-content: center;"/>
             <ui:VisualElement name="YellowKey" style="flex-grow: 1; background-color: rgb(207, 184, 36); width: 76px; min-width: 76px; max-width: 76px; max-height: 76px; min-height: 76px; height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; justify-content: center;"/>
         </ui:VisualElement>
+        <ui:VisualElement name="Guns" style="flex-grow: 1; width: 368px; min-width: 200px; max-width: none; position: absolute; right: auto; height: 163px; min-height: 163px; max-height: 163px; flex-direction: row; align-self: auto; align-items: stretch; top: 0; justify-content: center; align-content: center; left: 119px;">
+            <ui:VisualElement name="PistolIcon" style="flex-grow: 1; background-color: rgb(242, 169, 0); height: 76px; width: 76px; min-width: 76px; max-width: 76px; max-height: 76px; min-height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; align-self: auto; justify-content: center;">
+                <ui:Label text="1" style="-unity-text-align: upper-center; font-size: 47px; -unity-font-style: bold;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="MachineGunIcon" style="flex-grow: 1; background-color: rgb(242, 169, 0); width: 76px; min-width: 76px; max-width: 76px; height: 76px; min-height: 76px; max-height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; align-content: flex-start; justify-content: center;">
+                <ui:Label text="2" style="-unity-text-align: upper-center; font-size: 47px; -unity-font-style: bold;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="DontKnowYet" style="flex-grow: 1; background-color: rgb(242, 169, 0); width: 76px; min-width: 76px; max-width: 76px; max-height: 76px; min-height: 76px; height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; justify-content: center;">
+                <ui:Label text="X" style="-unity-text-align: upper-center; font-size: 47px; -unity-font-style: bold;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

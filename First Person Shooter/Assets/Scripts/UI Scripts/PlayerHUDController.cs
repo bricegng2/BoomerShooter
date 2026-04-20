@@ -11,9 +11,15 @@ public class PlayerHUDController : MonoBehaviour
     Label armour;
     Label ammo;
 
+    Color inactiveColour = new Color(90.0f / 255.0f, 90.0f / 255.0f, 90.0f / 255.0f, 1.0f);
+
     VisualElement RedKey;
     VisualElement BlueKey;
     VisualElement YellowKey;
+
+    Color activeColour = new Color(242.0f / 255.0f, 169.0f / 255.0f, 0.0f / 255.0f, 1.0f); // Gold for the gun thats selected
+    VisualElement pistolIcon;
+    VisualElement machineGunIcon;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,7 +34,11 @@ public class PlayerHUDController : MonoBehaviour
         BlueKey = container.Q<VisualElement>("BlueKey");
         YellowKey = container.Q<VisualElement>("YellowKey");
 
+        pistolIcon = container.Q<VisualElement>("PistolIcon");
+        machineGunIcon = container.Q<VisualElement>("MachineGunIcon");
+
         UpdateKeys();
+        UpdateGunIcons();
 
         health.text = player.health.ToString();
         armour.text = player.armour.ToString();
@@ -64,7 +74,7 @@ public class PlayerHUDController : MonoBehaviour
         }
         else
         {
-            RedKey.style.backgroundColor = new Color(90.0f / 255.0f, 90.0f / 255.0f, 90.0f / 255.0f, 1.0f);
+            RedKey.style.backgroundColor = inactiveColour;
         }
 
         if (DataManager.Instance.inventoryManager.keys.Find(key => key.keyType == EKeyType.Blue))
@@ -73,7 +83,7 @@ public class PlayerHUDController : MonoBehaviour
         }
         else
         {
-            BlueKey.style.backgroundColor = new Color(90.0f / 255.0f, 90.0f / 255.0f, 90.0f / 255.0f, 1.0f);
+            BlueKey.style.backgroundColor = inactiveColour;
         }
 
         if (DataManager.Instance.inventoryManager.keys.Find(key => key.keyType == EKeyType.Yellow))
@@ -82,7 +92,29 @@ public class PlayerHUDController : MonoBehaviour
         }
         else
         {
-            YellowKey.style.backgroundColor = new Color(90.0f / 255.0f, 90.0f / 255.0f, 90.0f / 255.0f, 1.0f);
+            YellowKey.style.backgroundColor = inactiveColour;
+        }
+    }
+
+    public void UpdateGunIcons()
+    {
+        //change this to be dynamic
+        if (DataManager.Instance.inventoryManager.guns.Find(gun => gun.gunType == EGunType.Pistol).isSelected == true)
+        {
+            pistolIcon.style.backgroundColor = activeColour;
+        }
+        else
+        {
+            pistolIcon.style.backgroundColor = inactiveColour;
+        }
+
+        if (DataManager.Instance.inventoryManager.guns.Find(gun => gun.gunType == EGunType.MachineGun).isSelected == true)
+        {
+            machineGunIcon.style.backgroundColor = activeColour;
+        }
+        else
+        {
+            machineGunIcon.style.backgroundColor = inactiveColour;
         }
     }
 }

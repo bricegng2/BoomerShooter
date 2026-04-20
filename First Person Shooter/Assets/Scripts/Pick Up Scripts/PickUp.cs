@@ -6,6 +6,8 @@ public abstract class PickUp : MonoBehaviour
 
     float rotationSpeed = 75.0f;
 
+    protected bool isPickedUp = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
@@ -26,7 +28,11 @@ public abstract class PickUp : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             ApplyPickUpEffect();
-            this.gameObject.SetActive(false); // add this to an object pool
+            
+            if (isPickedUp == true)
+            {
+                this.gameObject.SetActive(false); // add this to an object pool
+            }
         }
     }
 }

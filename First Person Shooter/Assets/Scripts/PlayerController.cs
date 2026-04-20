@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -97,6 +98,38 @@ public class PlayerController : MonoBehaviour
         playerHUD.UpdateArmour(armour);
     }
 
+    public void SwitchGun(EGunType gunType)
+    {
+        for (int i = 0; i < DataManager.Instance.inventoryManager.guns.Count; i++)
+        {
+            if (!DataManager.Instance.inventoryManager.guns.Find(gun => gun.gunType == gunType).gameObject.activeSelf)
+            {
+                Debug.Log("gun not picked up: " + gunType.ToString());
+                return;
+            }
+
+            if (DataManager.Instance.inventoryManager.guns[i].gunType == gunType)
+            {
+                DataManager.Instance.inventoryManager.guns[i].gameObject.SetActive(true);
+                gun = DataManager.Instance.inventoryManager.guns[i];
+                Debug.Log("switched to " + gunType.ToString());
+
+                gun.isSelected = true;
+
+                for (int j = 0; j < DataManager.Instance.inventoryManager.guns.Count; j++)
+                {
+                    if (DataManager.Instance.inventoryManager.guns[j].gunType != gunType)
+                    {
+                        DataManager.Instance.inventoryManager.guns[j].isSelected = false;
+                    }
+                }
+
+                playerHUD.UpdateAmmo(gun.GetAmmo());
+                playerHUD.UpdateGunIcons();
+            }
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         input = context.ReadValue<Vector2>();
@@ -124,24 +157,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnLeftClick(InputAction.CallbackContext context)
     {
-        if (!context.started)
-        {
-            return;
-        }
-
-        gun.Shoot();
-
-        Debug.DrawLine(playerCamera.transform.position, playerCamera.transform.position + (playerCamera.transform.forward * 100.0f), Color.red, 1.0f);
-
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hitInfo, 100.0f))
-        {
-            if (hitInfo.collider.CompareTag("Enemy"))
-            {
-                Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
-                
-                enemy.DoDamage(gun.GetDamage());
-            }
-        }
+        gun.PerformShoot(context);
     }
 
     public void OnInteract(InputAction.CallbackContext context)
@@ -165,6 +181,25 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void OnSwitchGun(InputAction.CallbackContext context)
+    {
+        if (!context.started)
+        {
+            return;
+        }
+        
+        int gunIndex = context.control.name[context.control.name.Length - 1] - '0'; // get the last character of the control name and convert it to an integer
+
+        if (gunIndex == 1)
+        {
+            SwitchGun(EGunType.Pistol);
+        }
+        else if (gunIndex == 2)
+        {
+            SwitchGun(EGunType.MachineGun);
         }
     }
 

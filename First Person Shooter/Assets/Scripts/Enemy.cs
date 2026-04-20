@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
 
         defaultMaterial = meshRenderer.material;
 
-        SphereCollider detectionZone = gameObject.AddComponent<SphereCollider>();
+        SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
         detectionZone.isTrigger = true;
         detectionZone.radius = Constants.c_enemy_minDistanceToPlayerWhenRandomDest;
 
