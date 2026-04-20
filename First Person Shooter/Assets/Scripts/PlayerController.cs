@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
 
-        jump = new Vector3(0.0f, 2.0f, 0.0f);
+        jump = new Vector3(0.0f, 3.0f, 0.0f);
     }
 
     // Update is called once per frame
@@ -130,6 +130,8 @@ public class PlayerController : MonoBehaviour
         }
 
         gun.Shoot();
+
+        Debug.DrawLine(playerCamera.transform.position, playerCamera.transform.position + (playerCamera.transform.forward * 100.0f), Color.red, 1.0f);
 
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hitInfo, 100.0f))
         {
