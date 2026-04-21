@@ -20,6 +20,7 @@ public class PlayerHUDController : MonoBehaviour
     Color activeColour = new Color(242.0f / 255.0f, 169.0f / 255.0f, 0.0f / 255.0f, 1.0f); // Gold for the gun thats selected
     VisualElement pistolIcon;
     VisualElement machineGunIcon;
+    VisualElement shotgunIcon;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,6 +37,7 @@ public class PlayerHUDController : MonoBehaviour
 
         pistolIcon = container.Q<VisualElement>("PistolIcon");
         machineGunIcon = container.Q<VisualElement>("MachineGunIcon");
+        shotgunIcon = container.Q<VisualElement>("ShotgunIcon");
 
         UpdateKeys();
         UpdateGunIcons();
@@ -115,6 +117,15 @@ public class PlayerHUDController : MonoBehaviour
         else
         {
             machineGunIcon.style.backgroundColor = inactiveColour;
+        }
+
+        if (DataManager.Instance.inventoryManager.guns.Find(gun => gun.gunType == EGunType.Shotgun).isSelected == true)
+        {
+            shotgunIcon.style.backgroundColor = activeColour;
+        }
+        else
+        {
+            shotgunIcon.style.backgroundColor = inactiveColour;
         }
     }
 }

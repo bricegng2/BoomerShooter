@@ -6,11 +6,11 @@ public static class Constants
     public const float c_enemy_projFireRate = 5.0f;
     public const float c_enemy_projSpeed = 5.0f;
     public const float c_enemy_timeToDestroyProj = 5.0f;
-    public const float c_enemy_minDistanceToPlayerWhenPlayerDest = 17.5f;
-    public const float c_enemy_minDistanceToPlayerWhenRandomDest = 10.0f;
+    public const float c_enemy_minDistanceToPlayerWhenPlayerDest = 25.0f;
+    public const float c_enemy_minDistanceToPlayerWhenRandomDest = 13.0f;
     public const float c_enemy_timeToSwitchDestination = 2.0f;
     public const int c_enemy_projDamage = 5;
-    public const int c_enemy_baseHealth = 20;
+    public const int c_enemy_baseHealth = 30;
     public const float c_enemy_timerToResetMaterial = 0.1f;
 
 
@@ -29,6 +29,10 @@ public static class Constants
     public const int c_gun_machineGunDamage = 7;
     public const int c_gun_machineGunAmmo = 100;
     public const float c_gun_machineGunFireRate = 0.1f;
+    // shotgun variables
+    public const int c_gun_shotgunDamage = 10;
+    public const int c_gun_shotgunAmmo = 25;
+    public const float c_gun_shotgunFireRate = 0.5f;
 
 
     //pick up variables

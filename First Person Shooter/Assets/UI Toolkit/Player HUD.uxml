@@ -24,8 +24,8 @@
             <ui:VisualElement name="MachineGunIcon" style="flex-grow: 1; background-color: rgb(242, 169, 0); width: 76px; min-width: 76px; max-width: 76px; height: 76px; min-height: 76px; max-height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; align-content: flex-start; justify-content: center;">
                 <ui:Label text="2" style="-unity-text-align: upper-center; font-size: 47px; -unity-font-style: bold;"/>
             </ui:VisualElement>
-            <ui:VisualElement name="DontKnowYet" style="flex-grow: 1; background-color: rgb(242, 169, 0); width: 76px; min-width: 76px; max-width: 76px; max-height: 76px; min-height: 76px; height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; justify-content: center;">
-                <ui:Label text="X" style="-unity-text-align: upper-center; font-size: 47px; -unity-font-style: bold;"/>
+            <ui:VisualElement name="ShotgunIcon" style="flex-grow: 1; background-color: rgb(242, 169, 0); width: 76px; min-width: 76px; max-width: 76px; max-height: 76px; min-height: 76px; height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; justify-content: center;">
+                <ui:Label text="3&#10;" style="-unity-text-align: upper-center; font-size: 47px; -unity-font-style: bold;"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

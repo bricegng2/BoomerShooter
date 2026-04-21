@@ -243,6 +243,10 @@ public class PlayerController : MonoBehaviour
         {
             SwitchGun(EGunType.MachineGun);
         }
+        else if (gunIndex == 3)
+        {
+            SwitchGun(EGunType.Shotgun);
+        }
     }
 
     public void OnThrowKnife(InputAction.CallbackContext context)

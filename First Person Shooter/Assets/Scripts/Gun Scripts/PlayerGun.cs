@@ -5,6 +5,7 @@ public enum EGunType
 {
     Pistol,
     MachineGun,
+    Shotgun,
 }
 
 public abstract class PlayerGun : MonoBehaviour
@@ -61,7 +62,7 @@ public abstract class PlayerGun : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    public virtual void Shoot()
     {
         if (ammo > 0)
         {
