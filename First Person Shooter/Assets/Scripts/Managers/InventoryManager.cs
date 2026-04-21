@@ -9,5 +9,5 @@ public class InventoryManager : MonoBehaviour
 
     // move the ammo stuff into here later
 
-    public int throwingKnives = 100; 
+    public int throwingKnives = 0;
 }

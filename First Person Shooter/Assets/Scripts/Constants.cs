@@ -11,7 +11,7 @@ public static class Constants
     public const float c_enemy_timeToSwitchDestination = 2.0f;
     public const int c_enemy_projDamage = 5;
     public const int c_enemy_baseHealth = 20;
-    public const float c_enemy_timerToResetMaterial = 0.15f;
+    public const float c_enemy_timerToResetMaterial = 0.1f;
 
 
     //player variables
