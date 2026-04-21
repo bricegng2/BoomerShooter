@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     Vector3 position;
-    Vector3 horizontalVelocity = Vector3.zero;
+    Vector3 velocity = Vector3.zero;
     Vector2 input = Vector2.zero;
     Vector2 lookInput = Vector2.zero;
 
@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
     float acceleration = 0.0f;
     [SerializeField]
     float deceleration = 0.0f;
+    Vector3 targetVelocity = Vector3.zero;
+    Vector3 newTargetVelocity = Vector3.zero;
+    
 
     [SerializeField]
     Rigidbody playerRigidbody;
@@ -23,8 +26,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10.0f;
     public bool isGrounded;
 
-    float mouseXSensitivity = 15.0f;
-    float mouseYSensitivity = 15.0f;
+    float mouseXSensitivity = 4.0f;
+    float mouseYSensitivity = 4.0f;
     Vector2 playerRotation = Vector2.zero;
     Vector2 verticalLookBounds = new Vector2(-85, 85);
     public Camera playerCamera;
@@ -49,14 +52,14 @@ public class PlayerController : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
 
-        jump = new Vector3(0.0f, 3.0f, 0.0f);
+        jump = new Vector3(0.0f, 4.0f, 0.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // --------------------
-        // movementz
+        // --------------------------------------------------------------------------------
+        // movement
         Vector3 moveDirection = (transform.right * input.x) + (transform.forward * input.y);
         moveDirection.y = 0.0f;
         if (moveDirection.sqrMagnitude > 1.0f)
@@ -64,7 +67,8 @@ public class PlayerController : MonoBehaviour
             moveDirection.Normalize();
         }
 
-        Vector3 targetVelocity = moveDirection * speed;
+        targetVelocity = moveDirection * speed;
+
         float accelRate;
         if (moveDirection.sqrMagnitude > 0.0f)
         {
@@ -74,13 +78,15 @@ public class PlayerController : MonoBehaviour
         {
             accelRate = deceleration;
         }
-        horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, targetVelocity, accelRate * Time.deltaTime);
+        
+        velocity = Vector3.MoveTowards(velocity, targetVelocity, accelRate * Time.deltaTime);
 
-        transform.position += horizontalVelocity * Time.deltaTime;
+        transform.position += velocity * Time.deltaTime;
         // movement
-        // --------------------
+        // --------------------------------------------------------------------------------
 
-        // --------------------
+
+        // --------------------------------------------------------------------------------
         // look rotation
         float xMovement = lookInput.x * mouseXSensitivity * Time.deltaTime * 2.0f;
         float yMovement = lookInput.y * mouseYSensitivity * Time.deltaTime * 2.0f;
@@ -90,14 +96,19 @@ public class PlayerController : MonoBehaviour
 
         playerRotation.y += xMovement;
         // look rotation
-        // --------------------
+        // --------------------------------------------------------------------------------
 
+
+        // --------------------------------------------------------------------------------
+        // camera tilt
         float targetZ = -input.x * tiltAngle;
 
         currentTilt = Mathf.Lerp(currentTilt, targetZ, Time.deltaTime * tiltSpeed);
 
         transform.rotation = Quaternion.Euler(0, playerRotation.y, currentTilt);
-        playerCamera.transform.localRotation = Quaternion.Euler(playerRotation.x, 0, 0);;
+        playerCamera.transform.localRotation = Quaternion.Euler(playerRotation.x, 0, 0);
+        // camera tilt
+        // --------------------------------------------------------------------------------
     }
 
     public void DoDamage(int damage)
