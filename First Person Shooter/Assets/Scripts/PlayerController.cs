@@ -5,9 +5,16 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     Vector3 position;
-    float speed = 10.0f;
+    Vector3 horizontalVelocity = Vector3.zero;
     Vector2 input = Vector2.zero;
     Vector2 lookInput = Vector2.zero;
+
+    [SerializeField]
+    float speed = 0.0f;
+    [SerializeField]
+    float acceleration = 0.0f;
+    [SerializeField]
+    float deceleration = 0.0f;
 
     [SerializeField]
     Rigidbody playerRigidbody;
@@ -30,6 +37,10 @@ public class PlayerController : MonoBehaviour
 
     public GameObject throwingKnifePrefab;
 
+    private float tiltAngle = 4.0f;
+    private float tiltSpeed = 5.0f;
+    private float currentTilt = 0f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,30 +56,48 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // --------------------
-        // movement
+        // movementz
         Vector3 moveDirection = (transform.right * input.x) + (transform.forward * input.y);
         moveDirection.y = 0.0f;
-        transform.position += moveDirection * speed * Time.deltaTime;
+        if (moveDirection.sqrMagnitude > 1.0f)
+        {
+            moveDirection.Normalize();
+        }
+
+        Vector3 targetVelocity = moveDirection * speed;
+        float accelRate;
+        if (moveDirection.sqrMagnitude > 0.0f)
+        {
+            accelRate = acceleration;
+        }
+        else
+        {
+            accelRate = deceleration;
+        }
+        horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, targetVelocity, accelRate * Time.deltaTime);
+
+        transform.position += horizontalVelocity * Time.deltaTime;
         // movement
         // --------------------
 
         // --------------------
         // look rotation
-        if (lookInput != Vector2.zero)
-        {
-            float xMovement = lookInput.x * mouseXSensitivity * Time.deltaTime * 2.0f;
-            float yMovement = lookInput.y * mouseYSensitivity * Time.deltaTime * 2.0f;
+        float xMovement = lookInput.x * mouseXSensitivity * Time.deltaTime * 2.0f;
+        float yMovement = lookInput.y * mouseYSensitivity * Time.deltaTime * 2.0f;
 
-            playerRotation.x -= yMovement;
-            playerRotation.x = Mathf.Clamp(playerRotation.x, verticalLookBounds.x, verticalLookBounds.y);
+        playerRotation.x -= yMovement;
+        playerRotation.x = Mathf.Clamp(playerRotation.x, verticalLookBounds.x, verticalLookBounds.y);
 
-            playerRotation.y += xMovement;
-
-            transform.rotation = Quaternion.Euler(0, playerRotation.y, 0);
-            playerCamera.transform.localRotation = Quaternion.Euler(playerRotation.x, 0, 0);
-        }
+        playerRotation.y += xMovement;
         // look rotation
         // --------------------
+
+        float targetZ = -input.x * tiltAngle;
+
+        currentTilt = Mathf.Lerp(currentTilt, targetZ, Time.deltaTime * tiltSpeed);
+
+        transform.rotation = Quaternion.Euler(0, playerRotation.y, currentTilt);
+        playerCamera.transform.localRotation = Quaternion.Euler(playerRotation.x, 0, 0);;
     }
 
     public void DoDamage(int damage)
@@ -220,7 +249,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionStay(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         isGrounded = true;
     }

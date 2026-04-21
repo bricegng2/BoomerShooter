@@ -43,9 +43,6 @@ UserSettings/
 # Library directory
 Library/
 
-# Build directory
-Build/
-
 # Temp directory
 Temp/
 

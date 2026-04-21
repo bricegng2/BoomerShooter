@@ -3760,6 +3760,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c425b0d30b2b0b54881c1d6283f1c5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  speed: 13.5
+  acceleration: 100
+  deceleration: 120
   playerRigidbody: {fileID: 1908918456}
   jump: {x: 0, y: 0, z: 0}
   jumpForce: 2
