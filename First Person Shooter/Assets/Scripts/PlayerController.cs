@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     public int armour = 0;
     public PlayerHUDController playerHUD;
 
+    public GameObject throwingKnifePrefab;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -200,6 +202,21 @@ public class PlayerController : MonoBehaviour
         else if (gunIndex == 2)
         {
             SwitchGun(EGunType.MachineGun);
+        }
+    }
+
+    public void OnThrowKnife(InputAction.CallbackContext context)
+    {
+        if (!context.started)
+        {
+            return;
+        }
+
+        if (DataManager.Instance.inventoryManager.throwingKnives > 0)
+        {
+            Instantiate(throwingKnifePrefab, GameObject.FindGameObjectWithTag("ThrowingKnifeThrowPos").transform.position + playerCamera.transform.forward, playerCamera.transform.rotation);
+            DataManager.Instance.inventoryManager.throwingKnives--;
+            Debug.Log("threw knife, remaining knives: " + DataManager.Instance.inventoryManager.throwingKnives);
         }
     }
 

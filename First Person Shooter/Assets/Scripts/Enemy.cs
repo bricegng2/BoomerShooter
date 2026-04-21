@@ -17,7 +17,7 @@ public enum EEnemyDestination
 
 public class Enemy : MonoBehaviour
 {
-    int health;
+    public int health;
 
     PlayerController player;
 
