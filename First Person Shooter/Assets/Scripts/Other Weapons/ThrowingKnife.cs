@@ -12,7 +12,7 @@ public class ThrowingKnife : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        direction = transform.forward + (transform.up * 0.2f);
+        SetDirection();
     }
 
     // Update is called once per frame
@@ -31,6 +31,22 @@ public class ThrowingKnife : MonoBehaviour
         transform.position += direction * speed * Time.deltaTime;
 
         transform.Rotate(rotationSpeed * Time.deltaTime, 0.0f, 0.0f);
+    }
+
+    public void Activate(PlayerController player)
+    {
+        transform.position = GameObject.FindGameObjectWithTag("ThrowingKnifeThrowPos").transform.position;
+        transform.rotation = player.playerCamera.transform.rotation;
+
+        SetDirection();
+
+        hasCollided = false;
+        timeToDeactivate = 10.0f;
+    }
+
+    void SetDirection()
+    {
+        direction = transform.forward + (transform.up * 0.2f);
     }
 
     void OnCollisionEnter(Collision collision)

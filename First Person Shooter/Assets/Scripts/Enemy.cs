@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     Material damagedMaterial;
 
+    public ObjectPooling projectileObjectPool;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -86,7 +88,19 @@ public class Enemy : MonoBehaviour
             {
                 if (projectile != null)
                 {
-                    Instantiate(projectile, transform.position, Quaternion.identity);
+                    GameObject potentialProjectile = projectileObjectPool.GetPooledObject();
+
+                    if (potentialProjectile == null)
+                    {
+                        EnemyProjectile proj = Instantiate(projectile, transform.position, Quaternion.identity);
+                        projectileObjectPool.AddObjectToPool(proj.gameObject);
+                    }
+                    else if (potentialProjectile != null)
+                    {
+                        EnemyProjectile proj = potentialProjectile.GetComponent<EnemyProjectile>();
+                        proj.Activate(this);
+                        potentialProjectile.SetActive(true);
+                    }
                 }
 
                 timerToFireProj = Constants.c_enemy_projFireRate;

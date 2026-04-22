@@ -38,12 +38,14 @@ public class PlayerController : MonoBehaviour
     public int armour = 0;
     public PlayerHUDController playerHUD;
 
-    public GameObject throwingKnifePrefab;
+    public ThrowingKnife throwingKnifePrefab;
 
-    private float tiltAngle = 4.0f;
-    private float tiltSpeed = 5.0f;
-    private float currentTilt = 0f;
+    float tiltAngle = 4.0f;
+    float tiltSpeed = 5.0f;
+    float currentTilt = 0f;
 
+    public ObjectPooling throwingKnifeObjectPool;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -256,7 +258,20 @@ public class PlayerController : MonoBehaviour
 
         if (DataManager.Instance.inventoryManager.throwingKnives > 0)
         {
-            Instantiate(throwingKnifePrefab, GameObject.FindGameObjectWithTag("ThrowingKnifeThrowPos").transform.position + playerCamera.transform.forward, playerCamera.transform.rotation);
+            GameObject potentialKnife = throwingKnifeObjectPool.GetPooledObject();
+
+            if (potentialKnife == null)
+            {
+                ThrowingKnife knife = Instantiate(throwingKnifePrefab, GameObject.FindGameObjectWithTag("ThrowingKnifeThrowPos").transform.position + playerCamera.transform.forward, playerCamera.transform.rotation);
+                throwingKnifeObjectPool.AddObjectToPool(knife.gameObject);
+            }
+            else if (potentialKnife != null)
+            {
+                ThrowingKnife knife = potentialKnife.GetComponent<ThrowingKnife>();
+                knife.Activate(this);
+                potentialKnife.SetActive(true);
+            }
+            
             DataManager.Instance.inventoryManager.throwingKnives--;
             Debug.Log("threw knife, remaining knives: " + DataManager.Instance.inventoryManager.throwingKnives);
         }

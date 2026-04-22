@@ -37,6 +37,20 @@ public class AcceleratorProjectile : MonoBehaviour
         }
     }
 
+    public void Activate(Vector3 position, int indexForDirection)
+    {
+        transform.position = position;
+        transform.rotation = Quaternion.identity;
+
+        direction = Quaternion.Euler(0, indexForDirection * Constants.c_accelerator_projSpread, 0) * player.playerCamera.transform.forward;
+        
+        speed = Constants.c_accelerator_projSpeed;
+
+        damage = Constants.c_accelerator_damage;
+
+        timeToDestroy = Constants.c_accelerator_timeToDestroyProj;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))

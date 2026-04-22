@@ -35,12 +35,27 @@ public class EnemyProjectile : MonoBehaviour
         }
     }
 
+    public void Activate(Enemy enemy)
+    {
+        transform.position = enemy.transform.position;
+
+        transform.rotation = Quaternion.identity;
+
+        target = player.transform.position;
+        
+        direction = target - transform.position;
+
+        speed = Constants.c_enemy_projSpeed;
+
+        timeToDestroy = Constants.c_enemy_timeToDestroyProj;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             player.DoDamage(Constants.c_enemy_projDamage);
-            this.gameObject.SetActive(false); // add this to an object pool 
+            this.gameObject.SetActive(false);
         }
     }
 }

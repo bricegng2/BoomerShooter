@@ -3,6 +3,8 @@ using UnityEngine;
 public class Accelerator : PlayerGun
 {
     public AcceleratorProjectile acceleratorProjectilePrefab;
+
+    public ObjectPooling acceleratorProjObjectPool;
     
     protected override void Start()
     {
@@ -31,8 +33,20 @@ public class Accelerator : PlayerGun
                 position.y -= 0.2f;
                 position += player.playerCamera.transform.forward * 0.5f;
 
-                AcceleratorProjectile proj = Instantiate(acceleratorProjectilePrefab, position, Quaternion.identity);
-                proj.indexForDirection = i;
+                GameObject potentialProjectile = acceleratorProjObjectPool.GetPooledObject();
+
+                if (potentialProjectile == null)
+                {
+                    AcceleratorProjectile proj = Instantiate(acceleratorProjectilePrefab, position, Quaternion.identity);
+                    proj.indexForDirection = i;
+                    acceleratorProjObjectPool.AddObjectToPool(proj.gameObject);
+                }
+                else if (potentialProjectile != null)
+                {
+                    AcceleratorProjectile proj = potentialProjectile.GetComponent<AcceleratorProjectile>();
+                    proj.Activate(position, i);
+                    potentialProjectile.SetActive(true);
+                }
             }
         }
     }
