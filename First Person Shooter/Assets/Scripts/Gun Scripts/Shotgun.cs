@@ -10,9 +10,9 @@ public class Shotgun : PlayerGun
 
         gunType = EGunType.Shotgun;
 
-        damage = Constants.c_gun_shotgunDamage;
-        ammo = Constants.c_gun_shotgunAmmo;
-        fireRate = Constants.c_gun_shotgunFireRate;
+        damage = Constants.c_shotgun_damage;
+        ammo = Constants.c_shotgun_ammo;
+        fireRate = Constants.c_shotgun_fireRate;
 
         playerHUD.UpdateAmmo(ammo);
     }
@@ -30,7 +30,16 @@ public class Shotgun : PlayerGun
                 if (hits[i].collider.CompareTag("Enemy"))
                 {
                     Enemy enemy = hits[i].collider.GetComponent<Enemy>();
-                    enemy.DoDamage(damage);
+
+                    float distanceToEnemy = Vector3.Distance(player.transform.position, enemy.transform.position);
+                    
+                    float damageMod = 1.0f - (distanceToEnemy / 100.0f);
+
+                    damageMod = Mathf.Clamp(damageMod, 0.5f, 1.0f); 
+
+                    int finalDamage = Mathf.RoundToInt(damage * damageMod);
+
+                    enemy.DoDamage(finalDamage);
                 }
             }
         }
@@ -38,6 +47,6 @@ public class Shotgun : PlayerGun
 
     protected override float ResetFireRate()
     {
-        return Constants.c_gun_shotgunFireRate;
+        return Constants.c_shotgun_fireRate;
     }
 }

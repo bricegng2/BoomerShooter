@@ -144,12 +144,6 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < DataManager.Instance.inventoryManager.guns.Count; i++)
         {
-            if (!DataManager.Instance.inventoryManager.guns.Find(gun => gun.gunType == gunType).gameObject.activeSelf)
-            {
-                Debug.Log("gun not picked up: " + gunType.ToString());
-                return;
-            }
-
             if (DataManager.Instance.inventoryManager.guns[i].gunType == gunType)
             {
                 DataManager.Instance.inventoryManager.guns[i].gameObject.SetActive(true);
@@ -246,6 +240,10 @@ public class PlayerController : MonoBehaviour
         else if (gunIndex == 3)
         {
             SwitchGun(EGunType.Shotgun);
+        }
+        else if (gunIndex == 4)
+        {
+            SwitchGun(EGunType.Accelerator);
         }
     }
 

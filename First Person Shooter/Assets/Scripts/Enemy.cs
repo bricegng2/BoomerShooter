@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 
     public NavMeshAgent agent;
 
-    public Projectile projectile;
+    public EnemyProjectile projectile;
     float timerToFireProj;
 
     EEnemyState currentState = EEnemyState.Idle;

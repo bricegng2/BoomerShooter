@@ -9,6 +9,7 @@ TagManager:
   - NPCDestination
   - Door
   - ThrowingKnifeThrowPos
+  - Environment
   layers:
   - Default
   - TransparentFX
@@ -19,9 +20,9 @@ TagManager:
   - Player
   - Ignore
   - EnemySphereCollider
-  - 
-  - 
-  - 
+  - Projectile
+  - PickUps
+  - Environment
   - 
   - 
   - 

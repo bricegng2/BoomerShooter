@@ -9,15 +9,15 @@ public class Pistol : PlayerGun
 
         gunType = EGunType.Pistol;
 
-        damage = Constants.c_gun_pistolDamage;
-        ammo = Constants.c_gun_pistolAmmo;
-        fireRate = Constants.c_gun_pistolFireRate;
+        damage = Constants.c_pistol_damage;
+        ammo = Constants.c_pistol_ammo;
+        fireRate = Constants.c_pistol_fireRate;
 
         playerHUD.UpdateAmmo(ammo);
     }
 
     protected override float ResetFireRate()
     {
-        return Constants.c_gun_pistolFireRate;
+        return Constants.c_pistol_fireRate;
     }
 }

@@ -22,17 +22,24 @@ public static class Constants
     public const int c_gun_defaultAmmo = 0;
     public const float c_gun_defaultFireRate = 0f;
     // pistol variables
-    public const int c_gun_pistolDamage = 5;
-    public const int c_gun_pistolAmmo = 50;
-    public const float c_gun_pistolFireRate = 0.25f;
+    public const int c_pistol_damage = 5;
+    public const int c_pistol_ammo = 50;
+    public const float c_pistol_fireRate = 0.25f;
     // machine gun variables
-    public const int c_gun_machineGunDamage = 7;
-    public const int c_gun_machineGunAmmo = 100;
-    public const float c_gun_machineGunFireRate = 0.1f;
+    public const int c_machineGun_damage = 7;
+    public const int c_machineGun_ammo = 100;
+    public const float c_machineGun_fireRate = 0.1f;
     // shotgun variables
-    public const int c_gun_shotgunDamage = 10;
-    public const int c_gun_shotgunAmmo = 25;
-    public const float c_gun_shotgunFireRate = 0.5f;
+    public const int c_shotgun_damage = 10;
+    public const int c_shotgun_ammo = 20;
+    public const float c_shotgun_fireRate = 1.0f;
+    // accelerator variables
+    public const int c_accelerator_damage = 6;
+    public const int c_accelerator_ammo = 300;
+    public const float c_accelerator_fireRate = 0.2f;
+    public const float c_accelerator_projSpeed = 25.0f;
+    public const float c_accelerator_timeToDestroyProj = 5.0f;
+    public const float c_accelerator_projSpread = 7.0f;
 
 
     //pick up variables
