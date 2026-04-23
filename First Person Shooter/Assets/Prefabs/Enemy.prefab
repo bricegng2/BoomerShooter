@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 2522795544249599604}
   - component: {fileID: 1139684414751515523}
   - component: {fileID: 7840386736305820153}
-  - component: {fileID: 5165293905263632445}
   - component: {fileID: 458376288393448805}
+  - component: {fileID: 5165293905263632445}
   - component: {fileID: 8233670004243051011}
   - component: {fileID: 6727715738186454906}
+  - component: {fileID: 4910255557878409076}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -118,6 +119,27 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &458376288393448805
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5278718237526369916}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5165293905263632445
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -145,27 +167,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
---- !u!135 &458376288393448805
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5278718237526369916}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 512
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &8233670004243051011
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -204,3 +205,17 @@ MonoBehaviour:
   agent: {fileID: 8233670004243051011}
   projectile: {fileID: 3638146578767930265, guid: f71462b137119a1a1b79f1adef642358, type: 3}
   damagedMaterial: {fileID: 2100000, guid: 6861510e6748150c7bc2eb66f1bf4515, type: 2}
+  projectileObjectPool: {fileID: 4910255557878409076}
+--- !u!114 &4910255557878409076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5278718237526369916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bacd063b84ca987f9d2dbc823811507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPooling
+  pooledObjects: []

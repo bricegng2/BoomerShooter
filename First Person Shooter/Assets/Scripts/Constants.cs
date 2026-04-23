@@ -10,7 +10,7 @@ public static class Constants
     public const float c_enemy_minDistanceToPlayerWhenRandomDest = 13.0f;
     public const float c_enemy_timeToSwitchDestination = 2.0f;
     public const int c_enemy_projDamage = 5;
-    public const int c_enemy_baseHealth = 30;
+    public const int c_enemy_baseHealth = 500; // 30
     public const float c_enemy_timerToResetMaterial = 0.1f;
 
 
@@ -40,6 +40,13 @@ public static class Constants
     public const float c_accelerator_projSpeed = 25.0f;
     public const float c_accelerator_timeToDestroyProj = 5.0f;
     public const float c_accelerator_projSpread = 7.0f;
+    // rocket launcher variables
+    public const int c_rocketLauncher_damage = 20;
+    public const int c_rocketLauncher_ammo = 500;
+    public const float c_rocketLauncher_fireRate = 1.5f;
+    public const float c_rocketLauncher_projSpeed = 30.0f;
+    public const float c_rocketLauncher_timeToDestroyProj = 5.0f;
+    public const float c_rocketLauncher_explosionRadius = 3.0f;
 
 
     //pick up variables

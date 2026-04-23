@@ -249,6 +249,10 @@ public class PlayerController : MonoBehaviour
         {
             SwitchGun(EGunType.Accelerator);
         }
+        else if (gunIndex == 5)
+        {
+            SwitchGun(EGunType.RocketLauncher);
+        }
     }
 
     public void OnThrowKnife(InputAction.CallbackContext context)
