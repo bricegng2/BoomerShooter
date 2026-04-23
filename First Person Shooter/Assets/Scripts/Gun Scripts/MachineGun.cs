@@ -19,4 +19,9 @@ public class MachineGun : PlayerGun
     {
         return Constants.c_machineGun_fireRate;
     }
+
+    protected override void AddImpactForce(GameObject gameObject)
+    {
+        gameObject.GetComponent<Rigidbody>().AddForce(player.playerCamera.transform.forward * 1.0f, ForceMode.Impulse);
+    }
 }

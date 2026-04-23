@@ -84,6 +84,8 @@ public class PlayerController : MonoBehaviour
         velocity = Vector3.MoveTowards(velocity, targetVelocity, accelRate * Time.deltaTime);
 
         transform.position += velocity * Time.deltaTime;
+
+        playerRigidbody.MovePosition(transform.position);
         // movement
         // --------------------------------------------------------------------------------
 
@@ -112,7 +114,6 @@ public class PlayerController : MonoBehaviour
         // camera tilt
         // --------------------------------------------------------------------------------
     }
-
     public void DoDamage(int damage)
     {
         if (armour > 0)
@@ -159,6 +160,7 @@ public class PlayerController : MonoBehaviour
                     if (DataManager.Instance.inventoryManager.guns[j].gunType != gunType)
                     {
                         DataManager.Instance.inventoryManager.guns[j].isSelected = false;
+                        DataManager.Instance.inventoryManager.guns[j].isShooting = false;
                     }
                 }
 

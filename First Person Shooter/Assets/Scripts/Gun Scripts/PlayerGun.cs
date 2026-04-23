@@ -19,7 +19,7 @@ public abstract class PlayerGun : MonoBehaviour
 
     protected PlayerHUDController playerHUD;
 
-    protected bool isShooting = false;
+    public bool isShooting = false;
 
     protected float fireRate;
 
@@ -65,6 +65,11 @@ public abstract class PlayerGun : MonoBehaviour
 
     public virtual void Shoot()
     {
+        if (isSelected == false)
+        {
+            return;
+        }
+
         if (ammo > 0)
         {
             ModAmmo(-1);
@@ -77,8 +82,19 @@ public abstract class PlayerGun : MonoBehaviour
 
                     enemy.DoDamage(damage);
                 }
+                else if (hitInfo.collider.CompareTag("Dumpster"))
+                {
+                    GameObject dumpster = hitInfo.collider.gameObject;
+
+                    AddImpactForce(dumpster);
+                }
             }
         }
+    }
+
+    protected virtual void AddImpactForce(GameObject gameObject)
+    {
+        gameObject.GetComponent<Rigidbody>().AddForce(player.playerCamera.transform.forward * 2.0f, ForceMode.Impulse);
     }
 
     protected abstract float ResetFireRate();

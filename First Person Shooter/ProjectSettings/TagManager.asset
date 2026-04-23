@@ -12,6 +12,7 @@ TagManager:
   - Environment
   - TrainStartingPoint
   - TrainEndPoint
+  - Dumpster
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Projectile
   - PickUps
   - Environment
-  - 
+  - Dumpster
   - 
   - 
   - 

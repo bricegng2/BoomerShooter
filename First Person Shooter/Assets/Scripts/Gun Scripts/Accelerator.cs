@@ -21,6 +21,11 @@ public class Accelerator : PlayerGun
 
     public override void Shoot()
     {
+        if (isSelected == false)
+        {
+            return;
+        }
+
         if (ammo > 0)
         {
             int projCount = 5;

@@ -41,8 +41,19 @@ public class Shotgun : PlayerGun
 
                     enemy.DoDamage(finalDamage);
                 }
+                else if (hits[i].collider.CompareTag("Dumpster"))
+                {
+                    GameObject dumpster = hits[i].collider.gameObject;
+
+                    AddImpactForce(dumpster);
+                }
             }
         }
+    }
+
+    protected override void AddImpactForce(GameObject gameObject)
+    {
+        gameObject.GetComponent<Rigidbody>().AddForce(player.playerCamera.transform.forward * 7.5f, ForceMode.Impulse);
     }
 
     protected override float ResetFireRate()

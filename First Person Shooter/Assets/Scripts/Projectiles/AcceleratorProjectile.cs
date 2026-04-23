@@ -61,7 +61,16 @@ public class AcceleratorProjectile : MonoBehaviour
 
             this.gameObject.SetActive(false); // add this to an object pool
         }
-        else if (other.gameObject.layer == LayerMask.NameToLayer("Default")) // WHY DOES THIS NOT WORK
+        else if (other.gameObject.CompareTag("Dumpster"))
+        {
+            GameObject dumpster = other.gameObject;
+
+            dumpster.GetComponent<Rigidbody>().AddForce(player.playerCamera.transform.forward * 2.0f, ForceMode.Impulse);
+
+            this.gameObject.SetActive(false); // add this to an object pool
+        }
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("Default")) // WHY DOES THIS NOT WORK
         {
             this.gameObject.SetActive(false); // add this to an object pool
         }
