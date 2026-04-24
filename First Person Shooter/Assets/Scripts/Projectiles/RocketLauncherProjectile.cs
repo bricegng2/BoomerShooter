@@ -1,5 +1,7 @@
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RocketLauncherProjectile : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class RocketLauncherProjectile : MonoBehaviour
     Vector3 direction;
     float timeToDestroy;
     int damage = Constants.c_rocketLauncher_damage;
+
+    public LayerMask explosionLayerMask = ~0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,7 +43,7 @@ public class RocketLauncherProjectile : MonoBehaviour
     public void Activate(Vector3 position)
     {
         transform.position = position;
-        transform.rotation = Quaternion.identity;
+        transform.rotation = Quaternion.LookRotation(player.playerCamera.transform.forward);
 
         direction = player.playerCamera.transform.forward;
 
@@ -52,7 +56,9 @@ public class RocketLauncherProjectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        GameObject[] objectsForPhysics = Physics.OverlapSphere(transform.position, Constants.c_rocketLauncher_explosionRadius).Select(other => other.gameObject).ToArray();
+        Vector3 explosionPosition = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+
+        GameObject[] objectsForPhysics = Physics.OverlapSphere(explosionPosition, Constants.c_rocketLauncher_explosionRadius, explosionLayerMask, QueryTriggerInteraction.Ignore).Select(other => other.gameObject).ToArray();
         
         for (int i = 0; i < objectsForPhysics.Length; i++)
         {
@@ -77,17 +83,19 @@ public class RocketLauncherProjectile : MonoBehaviour
                     {
                         Enemy enemy = objectsForPhysics[i].GetComponent<Enemy>();
 
-                        enemy.DoDamage(damage);
+                        enemy.HandlePhysics();
 
-                        rb.AddExplosionForce(20.0f, transform.position, Constants.c_rocketLauncher_explosionRadius * 0.2f);
+                        rb.AddExplosionForce(200.0f, explosionPosition, Constants.c_rocketLauncher_explosionRadius, 0.8f);
+
+                        enemy.DoDamage(damage);
                     }
                     else if (objectsForPhysics[i].CompareTag("Dumpster"))
                     {
-                        rb.AddExplosionForce(400.0f, transform.position, Constants.c_rocketLauncher_explosionRadius, 0.8f);
+                        rb.AddExplosionForce(800.0f, explosionPosition, Constants.c_rocketLauncher_explosionRadius, 0.8f);
                     }
                     else if (objectsForPhysics[i].CompareTag("Player"))
                     {
-                        rb.AddExplosionForce(800.0f, transform.position, Constants.c_rocketLauncher_explosionRadius * 0.2f, 1.2f);
+                        rb.AddExplosionForce(800.0f, explosionPosition, Constants.c_rocketLauncher_explosionRadius * 0.2f, 1.2f);
                     }
                 }
             }
@@ -101,8 +109,8 @@ public class RocketLauncherProjectile : MonoBehaviour
 
             this.gameObject.SetActive(false);
         }
-
-        if (other.gameObject.layer == LayerMask.NameToLayer("Default"))
+        
+        if (this.gameObject.activeSelf == true)
         {
             this.gameObject.SetActive(false);
         }

@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7148826458038303004}
+  - component: {fileID: 8438053191707523058}
   - component: {fileID: 6625946736431813684}
   - component: {fileID: 4253723222875987295}
   - component: {fileID: 1400197995558693381}
-  - component: {fileID: 8438053191707523058}
   m_Layer: 9
   m_Name: RocketLauncherProjectile
   m_TagString: Untagged
@@ -35,6 +35,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8438053191707523058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5665998810372579222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcbb2765d1d96c65b954b94ce9d050fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RocketLauncherProjectile
+  explosionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!33 &6625946736431813684
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -113,18 +128,3 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8438053191707523058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5665998810372579222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcbb2765d1d96c65b954b94ce9d050fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RocketLauncherProjectile
-  ignoredLayer:
-    serializedVersion: 2
-    m_Bits: 247

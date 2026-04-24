@@ -39,7 +39,7 @@ public class RocketLauncher : PlayerGun
 
             if (potentialProjectile == null)
             {
-                RocketLauncherProjectile proj = Instantiate(rocketLauncherProjectilePrefab, position, Quaternion.identity);
+                RocketLauncherProjectile proj = Instantiate(rocketLauncherProjectilePrefab, position, Quaternion.LookRotation(player.playerCamera.transform.forward));
                 rocketLauncherProjObjectPool.AddObjectToPool(proj.gameObject);
             }
             else if (potentialProjectile != null)

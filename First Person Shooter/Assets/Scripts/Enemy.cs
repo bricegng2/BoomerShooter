@@ -39,6 +39,11 @@ public class Enemy : MonoBehaviour
 
     public ObjectPooling projectileObjectPool;
 
+    bool isPhysicsHappening = false;
+    bool hasPhysicsLaunched = false;
+
+    Rigidbody rb;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -49,7 +54,7 @@ public class Enemy : MonoBehaviour
 
         SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
         detectionZone.isTrigger = true;
-        detectionZone.radius = Constants.c_enemy_minDistanceToPlayerWhenRandomDest;
+        detectionZone.radius = Constants.c_enemy_distanceToPlayerWhenRandomDest;
 
         SetDestination(EEnemyDestination.RandomDestination);
 
@@ -60,50 +65,55 @@ public class Enemy : MonoBehaviour
         health = Constants.c_enemy_baseHealth;
 
         timerToResetMaterial = Constants.c_enemy_timerToResetMaterial;
+
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentDestinationType == EEnemyDestination.RandomDestination)
+        if (agent.enabled == true && isPhysicsHappening == false)
         {
-            bool reached = agent.remainingDistance <= agent.stoppingDistance;
-
-            if (reached == true)
+            if (currentDestinationType == EEnemyDestination.RandomDestination)
             {
-                timerToSwitchDestination -= Time.deltaTime;
-                if (timerToSwitchDestination <= 0.0f)
+                bool reached = agent.remainingDistance <= agent.stoppingDistance;
+
+                if (reached == true)
                 {
-                    timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
-                    SetDestination(EEnemyDestination.RandomDestination);
+                    timerToSwitchDestination -= Time.deltaTime;
+                    if (timerToSwitchDestination <= 0.0f)
+                    {
+                        timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
+                        SetDestination(EEnemyDestination.RandomDestination);
+                    }
                 }
             }
-        }
-        else if (currentDestinationType == EEnemyDestination.PlayerDestination)
-        {
-            SetDestination(EEnemyDestination.PlayerDestination);
-
-            timerToFireProj -= 0.1f;
-            if (timerToFireProj <= 0.0f)
+            else if (currentDestinationType == EEnemyDestination.PlayerDestination)
             {
-                if (projectile != null)
+                SetDestination(EEnemyDestination.PlayerDestination);
+
+                timerToFireProj -= 0.1f;
+                if (timerToFireProj <= 0.0f)
                 {
-                    GameObject potentialProjectile = projectileObjectPool.GetPooledObject();
+                    if (projectile != null)
+                    {
+                        GameObject potentialProjectile = projectileObjectPool.GetPooledObject();
 
-                    if (potentialProjectile == null)
-                    {
-                        EnemyProjectile proj = Instantiate(projectile, transform.position, Quaternion.identity);
-                        projectileObjectPool.AddObjectToPool(proj.gameObject);
+                        if (potentialProjectile == null)
+                        {
+                            EnemyProjectile proj = Instantiate(projectile, transform.position, Quaternion.identity);
+                            projectileObjectPool.AddObjectToPool(proj.gameObject);
+                        }
+                        else if (potentialProjectile != null)
+                        {
+                            EnemyProjectile proj = potentialProjectile.GetComponent<EnemyProjectile>();
+                            proj.Activate(this);
+                            potentialProjectile.SetActive(true);
+                        }
                     }
-                    else if (potentialProjectile != null)
-                    {
-                        EnemyProjectile proj = potentialProjectile.GetComponent<EnemyProjectile>();
-                        proj.Activate(this);
-                        potentialProjectile.SetActive(true);
-                    }
+
+                    timerToFireProj = Constants.c_enemy_projFireRate;
                 }
-
-                timerToFireProj = Constants.c_enemy_projFireRate;
             }
         }
 
@@ -115,6 +125,68 @@ public class Enemy : MonoBehaviour
                 isDamaged = false;
                 timerToResetMaterial = Constants.c_enemy_timerToResetMaterial;
                 meshRenderer.material = defaultMaterial;
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (isPhysicsHappening == true)
+        {
+            if (!hasPhysicsLaunched && rb.linearVelocity.magnitude > 0.01f)
+            {
+                hasPhysicsLaunched = true;
+            }
+
+            if (hasPhysicsLaunched && rb.linearVelocity.magnitude <= 0.01f)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.isKinematic = true;
+                rb.useGravity = false;
+
+                agent.Warp(transform.position);
+                agent.enabled = true;
+
+                isPhysicsHappening = false;
+                hasPhysicsLaunched = false;
+            }
+        }
+    }
+
+    public void HandlePhysics()
+    {
+        agent.enabled = false;
+
+        isPhysicsHappening = true;
+        hasPhysicsLaunched = false;
+
+        rb.isKinematic = false;
+        rb.useGravity = true;
+    }
+
+
+    void SetDestination(EEnemyDestination destinationType)
+    {
+        if (agent.enabled == true && isPhysicsHappening == false)
+        {
+            currentDestinationType = destinationType;
+
+            if (destinationType == EEnemyDestination.PlayerDestination)
+            {
+                SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
+                detectionZone.radius = Constants.c_enemy_distanceToPlayerWhenPlayerDest;
+
+                agent.SetDestination(player.transform.position);
+            }
+            else if (destinationType == EEnemyDestination.RandomDestination)
+            {
+                timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
+
+                SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
+                detectionZone.radius = Constants.c_enemy_distanceToPlayerWhenRandomDest;
+
+                agent.SetDestination(DataManager.Instance.destinationManager.PickDestination());
             }
         }
     }
@@ -153,27 +225,5 @@ public class Enemy : MonoBehaviour
     void SetState()
     {
 
-    }
-
-    void SetDestination(EEnemyDestination destinationType)
-    {
-        currentDestinationType = destinationType;
-
-        if (destinationType == EEnemyDestination.PlayerDestination)
-        {
-            SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
-            detectionZone.radius = Constants.c_enemy_minDistanceToPlayerWhenPlayerDest;
-
-            agent.SetDestination(player.transform.position);
-        }
-        else if (destinationType == EEnemyDestination.RandomDestination)
-        {
-            timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
-
-            SphereCollider detectionZone = gameObject.GetComponent<SphereCollider>();
-            detectionZone.radius = Constants.c_enemy_minDistanceToPlayerWhenRandomDest;
-
-            agent.SetDestination(DataManager.Instance.destinationManager.PickDestination());
-        }
     }
 }
