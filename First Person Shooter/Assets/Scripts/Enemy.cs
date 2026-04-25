@@ -152,6 +152,8 @@ public class Enemy : MonoBehaviour
                 hasPhysicsLaunched = false;
             }
         }
+        
+        rb.MovePosition(transform.position);
     }
 
     public void HandlePhysics()

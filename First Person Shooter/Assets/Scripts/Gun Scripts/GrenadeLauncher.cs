@@ -1,21 +1,21 @@
 using UnityEngine;
 
-public class RocketLauncher : PlayerGun
+public class GrenadeLauncher : PlayerGun
 {
-    public ObjectPooling rocketLauncherProjObjectPool;
+    public ObjectPooling grenadeProjObjectPool;
 
-    public RocketLauncherProjectile rocketLauncherProjectilePrefab;
+    public GrenadeLauncherProjectile grenadeProjectilePrefab;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         base.Start();
 
-        gunType = EGunType.RocketLauncher;
+        gunType = EGunType.GrenadeLauncher;
 
-        damage = 0; // not being used for rocket launcher, damage is handled by the projectile
-        ammo = Constants.c_rocketLauncher_ammo;
-        fireRate = Constants.c_rocketLauncher_fireRate;
+        damage = 0; // not being used for grenade launcher, damage is handled by the projectile
+        ammo = Constants.c_grenadeLauncher_ammo;
+        fireRate = Constants.c_grenadeLauncher_fireRate;
 
         playerHUD.UpdateAmmo(ammo);
     }
@@ -35,17 +35,17 @@ public class RocketLauncher : PlayerGun
             position.y -= 0.2f;
             position += player.playerCamera.transform.forward * 0.5f;
 
-            GameObject potentialProjectile = rocketLauncherProjObjectPool.GetPooledObject();
+            GameObject potentialProjectile = grenadeProjObjectPool.GetPooledObject();
 
             if (potentialProjectile == null)
             {
-                RocketLauncherProjectile proj = Instantiate(rocketLauncherProjectilePrefab, position, Quaternion.LookRotation(player.playerCamera.transform.forward));
+                GrenadeLauncherProjectile proj = Instantiate(grenadeProjectilePrefab, position, Quaternion.LookRotation(player.playerCamera.transform.forward));
                 proj.ApplyForce();
-                rocketLauncherProjObjectPool.AddObjectToPool(proj.gameObject);
+                grenadeProjObjectPool.AddObjectToPool(proj.gameObject);
             }
             else if (potentialProjectile != null)
             {
-                RocketLauncherProjectile proj = potentialProjectile.GetComponent<RocketLauncherProjectile>();
+                GrenadeLauncherProjectile proj = potentialProjectile.GetComponent<GrenadeLauncherProjectile>();
                 potentialProjectile.SetActive(true);
                 proj.Activate(position);
             }
@@ -54,6 +54,6 @@ public class RocketLauncher : PlayerGun
 
     protected override float ResetFireRate()
     {
-        return Constants.c_rocketLauncher_fireRate;
+        return Constants.c_grenadeLauncher_fireRate;
     }
 }

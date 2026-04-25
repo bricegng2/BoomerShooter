@@ -8,6 +8,7 @@ public enum EGunType
     Shotgun,
     Accelerator,
     RocketLauncher,
+    GrenadeLauncher,
 }
 
 public abstract class PlayerGun : MonoBehaviour

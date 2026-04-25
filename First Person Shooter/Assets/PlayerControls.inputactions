@@ -227,6 +227,17 @@
                 },
                 {
                     "name": "",
+                    "id": "764991be-398e-4902-a088-f67eeee3fcce",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchGun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1084cd41-6665-4b0d-b57b-38ba15d45f6a",
                     "path": "<Keyboard>/f",
                     "interactions": "",

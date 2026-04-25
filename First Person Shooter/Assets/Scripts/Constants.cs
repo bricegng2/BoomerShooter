@@ -41,12 +41,21 @@ public static class Constants
     public const float c_accelerator_timeToDestroyProj = 5.0f;
     public const float c_accelerator_projSpread = 7.0f;
     // rocket launcher variables
-    public const int c_rocketLauncher_damage = 0;
-    public const int c_rocketLauncher_ammo = 500;
+    public const int c_rocketLauncher_directDamage = 25;
+    public const int c_rocketLauncher_splashDamage = 15;
+    public const int c_rocketLauncher_ammo = 500; // 100
     public const float c_rocketLauncher_fireRate = 1.5f;
-    public const float c_rocketLauncher_projSpeed = 30.0f;
+    public const float c_rocketLauncher_projSpeed = 35.0f;
     public const float c_rocketLauncher_timeToDestroyProj = 5.0f;
     public const float c_rocketLauncher_explosionRadius = 3.0f;
+    // grenade launcher variables
+    public const int c_grenadeLauncher_directDamage = 25;
+    public const int c_grenadeLauncher_splashDamage = 15;
+    public const int c_grenadeLauncher_ammo = 500;
+    public const float c_grenadeLauncher_fireRate = 0.7f;
+    public const float c_grenadeLauncher_projSpeed = 15.0f;
+    public const float c_grenadeLauncher_timeToDestroyProj = 2.0f;
+    public const float c_grenadeLauncher_explosionRadius = 4.0f;
 
 
     //pick up variables

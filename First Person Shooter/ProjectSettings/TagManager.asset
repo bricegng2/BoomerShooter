@@ -13,6 +13,8 @@ TagManager:
   - TrainStartingPoint
   - TrainEndPoint
   - Dumpster
+  - Ground
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - Environment
   - Dumpster
   - Explosion
-  - 
+  - PlayerRigidbody
   - 
   - 
   - 

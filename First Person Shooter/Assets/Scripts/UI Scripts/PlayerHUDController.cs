@@ -23,6 +23,7 @@ public class PlayerHUDController : MonoBehaviour
     VisualElement shotgunIcon;
     VisualElement acceleratorIcon;
     VisualElement rocketLauncherIcon;
+    VisualElement grenadeLauncherIcon;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,6 +43,7 @@ public class PlayerHUDController : MonoBehaviour
         shotgunIcon = container.Q<VisualElement>("ShotgunIcon");
         acceleratorIcon = container.Q<VisualElement>("AcceleratorIcon");
         rocketLauncherIcon = container.Q<VisualElement>("RocketLauncherIcon");
+        grenadeLauncherIcon = container.Q<VisualElement>("GrenadeLauncherIcon");
 
         UpdateKeys();
         UpdateGunIcons();
@@ -148,6 +150,15 @@ public class PlayerHUDController : MonoBehaviour
         else
         {
             rocketLauncherIcon.style.backgroundColor = inactiveColour;
+        }
+
+        if (DataManager.Instance.inventoryManager.guns.Find(gun => gun.gunType == EGunType.GrenadeLauncher).isSelected == true)
+        {
+            grenadeLauncherIcon.style.backgroundColor = activeColour;
+        }
+        else
+        {
+            grenadeLauncherIcon.style.backgroundColor = inactiveColour;
         }
     }
 }

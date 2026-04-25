@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     float currentTilt = 0f;
 
     public ObjectPooling throwingKnifeObjectPool;
+
+    Vector3 moveDirection = Vector3.zero;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -55,41 +57,12 @@ public class PlayerController : MonoBehaviour
         UnityEngine.Cursor.visible = false;
 
         jump = new Vector3(0.0f, 4.0f, 0.0f);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // --------------------------------------------------------------------------------
-        // movement
-        Vector3 moveDirection = (transform.right * input.x) + (transform.forward * input.y);
-        moveDirection.y = 0.0f;
-        if (moveDirection.sqrMagnitude > 1.0f)
-        {
-            moveDirection.Normalize();
-        }
-
-        targetVelocity = moveDirection * speed;
-
-        float accelRate;
-        if (moveDirection.sqrMagnitude > 0.0f)
-        {
-            accelRate = acceleration;
-        }
-        else
-        {
-            accelRate = deceleration;
-        }
-        
-        velocity = Vector3.MoveTowards(velocity, targetVelocity, accelRate * Time.deltaTime);
-
-        transform.position += velocity * Time.deltaTime;
-
-        playerRigidbody.MovePosition(transform.position);
-        // movement
-        // --------------------------------------------------------------------------------
-
-
         // --------------------------------------------------------------------------------
         // look rotation
         float xMovement = lookInput.x * mouseXSensitivity * Time.deltaTime * 2.0f;
@@ -114,6 +87,39 @@ public class PlayerController : MonoBehaviour
         // camera tilt
         // --------------------------------------------------------------------------------
     }
+
+    void FixedUpdate()
+    {
+        // --------------------------------------------------------------------------------
+        // movement
+        moveDirection = (transform.right * input.x) + (transform.forward * input.y);
+        moveDirection.y = 0.0f;
+        if (moveDirection.sqrMagnitude > 1.0f)
+        {
+            moveDirection.Normalize();
+        }
+
+        targetVelocity = moveDirection * speed;
+
+        float accelRate;
+        if (moveDirection.sqrMagnitude > 0.0f)
+        {
+            accelRate = acceleration;
+        }
+        else
+        {
+            accelRate = deceleration;
+        }
+        
+        velocity = Vector3.MoveTowards(velocity, targetVelocity, accelRate * Time.deltaTime);
+
+        Vector3 position = transform.position + velocity * Time.deltaTime;
+
+        playerRigidbody.MovePosition(position);
+        // movement
+        // --------------------------------------------------------------------------------
+    }
+
     public void DoDamage(int damage)
     {
         if (armour > 0)
@@ -220,6 +226,11 @@ public class PlayerController : MonoBehaviour
                         door.doorState = EDoorState.Opening;
                     }
                 }
+                
+                if (door.doorData.doorType == EDoorType.End)
+                {
+                    door.doorState = EDoorState.Opening;
+                }
             }
         }
     }
@@ -253,6 +264,10 @@ public class PlayerController : MonoBehaviour
         {
             SwitchGun(EGunType.RocketLauncher);
         }
+        else if (gunIndex == 6)
+        {
+            SwitchGun(EGunType.GrenadeLauncher);
+        }
     }
 
     public void OnThrowKnife(InputAction.CallbackContext context)
@@ -285,11 +300,17 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        isGrounded = true;
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
     }
 
     void OnCollisionExit(Collision collision)
     {
-        isGrounded = false;
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
     }
 }

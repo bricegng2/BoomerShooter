@@ -10,8 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cfd064cd95dc531449721b21d9b1e00e, type: 3}
-  m_Name: Red Door
+  m_Name: End Door
   m_EditorClassIdentifier: Assembly-CSharp::DoorData
-  doorKeyType: 1
-  doorType: 0
-  doorMaterial: {fileID: 2100000, guid: 3525e8c1b2c24e94a8e0574dc53b55d7, type: 2}
+  doorType: 3
+  doorMaterial: {fileID: 2100000, guid: eb1b5cae300b388719889e645cda0a46, type: 2}
