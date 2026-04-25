@@ -3,59 +3,28 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RocketLauncherProjectile : MonoBehaviour
+public class RocketLauncherProjectile : ExplosiveProjectile
 {
-    PlayerController player;
-
-    float speed;
-    Vector3 direction;
-    float timeToDestroy;
-    int directDamage;
-    int splashDamage;
-
-    public LayerMask explosionLayerMask = ~0;
-
-    public Rigidbody rb;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    protected new void Awake()
     {
-        player = FindAnyObjectByType<PlayerController>();
-
-        direction = player.playerCamera.transform.forward;
+        base.Awake();
 
         speed = Constants.c_rocketLauncher_projSpeed;
 
         directDamage = Constants.c_rocketLauncher_directDamage;
         splashDamage = Constants.c_rocketLauncher_splashDamage;
 
-        timeToDestroy = Constants.c_rocketLauncher_timeToDestroyProj;
+        timeToDestroy = GetTimeToDestroy();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //transform.position += direction * speed * Time.deltaTime;
-
-        timeToDestroy -= Time.deltaTime;
-        if (timeToDestroy <= 0.0f)
-        {
-            timeToDestroy = Constants.c_rocketLauncher_timeToDestroyProj;
-            this.gameObject.SetActive(false);
-        }
-    }
-
-    void FixedUpdate()
-    {
-    }
-
-    public void ApplyForce()
+    public override void ApplyForce()
     {
         direction = player.playerCamera.transform.forward;
         rb.AddForce(direction.normalized * speed, ForceMode.VelocityChange);
     }
 
-    public void Activate(Vector3 position)
+    public override void Activate(Vector3 position)
     {
         transform.position = position;
         transform.rotation = Quaternion.LookRotation(direction);
@@ -137,7 +106,7 @@ public class RocketLauncherProjectile : MonoBehaviour
                 }
                 else if (objectsForPhysics[i].CompareTag("Player"))
                 {
-                    rb.AddExplosionForce(800.0f, explosionPosition, Constants.c_rocketLauncher_explosionRadius * 1.2f, 1.2f);
+                    rb.AddExplosionForce(800.0f, explosionPosition, Constants.c_rocketLauncher_explosionRadius * 1.5f, 1.2f);
                 }
             }
         }
@@ -146,5 +115,10 @@ public class RocketLauncherProjectile : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
+    }
+
+    protected override float GetTimeToDestroy()
+    {
+        return Constants.c_rocketLauncher_timeToDestroyProj;
     }
 }

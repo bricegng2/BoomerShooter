@@ -206,6 +206,11 @@ public class PlayerController : MonoBehaviour
         gun.PerformShoot(context);
     }
 
+    public void OnRightClick(InputAction.CallbackContext context)
+    {
+        gun.PerformRightClick(context);
+    }
+
     public void OnInteract(InputAction.CallbackContext context)
     {
         if (!context.started)

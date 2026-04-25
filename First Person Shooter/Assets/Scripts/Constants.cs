@@ -22,7 +22,7 @@ public static class Constants
     public const int c_gun_defaultAmmo = 0;
     public const float c_gun_defaultFireRate = 0f;
     // pistol variables
-    public const int c_pistol_damage = 5;
+    public const int c_pistol_damage = 8;
     public const int c_pistol_ammo = 50;
     public const float c_pistol_fireRate = 0.25f;
     // machine gun variables
@@ -49,12 +49,11 @@ public static class Constants
     public const float c_rocketLauncher_timeToDestroyProj = 5.0f;
     public const float c_rocketLauncher_explosionRadius = 3.0f;
     // grenade launcher variables
-    public const int c_grenadeLauncher_directDamage = 25;
-    public const int c_grenadeLauncher_splashDamage = 15;
+    public const int c_grenadeLauncher_splashDamage = 20;
     public const int c_grenadeLauncher_ammo = 500;
     public const float c_grenadeLauncher_fireRate = 0.7f;
     public const float c_grenadeLauncher_projSpeed = 15.0f;
-    public const float c_grenadeLauncher_timeToDestroyProj = 2.0f;
+    public const float c_grenadeLauncher_timeToDestroyProj = 20.0f;
     public const float c_grenadeLauncher_explosionRadius = 4.0f;
 
 

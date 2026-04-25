@@ -65,7 +65,7 @@ public abstract class PlayerGun : MonoBehaviour
         }
     }
 
-    public virtual void Shoot()
+    protected virtual void Shoot()
     {
         if (isSelected == false)
         {
@@ -92,6 +92,19 @@ public abstract class PlayerGun : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void PerformRightClick(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            RightClick();
+        }
+    }
+
+    protected virtual void RightClick()
+    {
+        // there is nothing in here because most guns wont have any right click functionality
     }
 
     protected virtual void AddImpactForce(GameObject gameObject)

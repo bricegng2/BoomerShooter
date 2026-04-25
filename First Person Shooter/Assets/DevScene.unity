@@ -177,7 +177,7 @@ Transform:
   m_GameObject: {fileID: 144370992}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.74611, y: 0.06103003, z: 23.00156}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -589,6 +589,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cdeba39598c2dcd8a5ece89ab66892d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCDesination
+--- !u!1 &308280955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 308280956}
+  - component: {fileID: 308280958}
+  - component: {fileID: 308280957}
+  m_Layer: 0
+  m_Name: Crossbow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &308280956
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308280955}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1908918452}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &308280957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308280955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bacd063b84ca987f9d2dbc823811507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPooling
+  pooledObjects: []
+--- !u!114 &308280958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308280955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca573f3d1415031ae9a04888e8fc5f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Crossbow
+  damage: 0
+  ammo: 0
+  player: {fileID: 0}
+  playerHUD: {fileID: 0}
+  isShooting: 0
+  fireRate: 0
+  shootLayerMask:
+    m_Bits: 247
+  gunType: 6
+  isSelected: 0
+  crossbowProjObjectPool: {fileID: 308280957}
+  crossbowProjectilePrefab: {fileID: -5227147040172203775, guid: 309d34f3a5a709227ad56d649a205e4d, type: 3}
 --- !u!1 &355113545
 GameObject:
   m_ObjectHideFlags: 0
@@ -4262,6 +4332,7 @@ Transform:
   - {fileID: 1490664215}
   - {fileID: 2061259935}
   - {fileID: 144370993}
+  - {fileID: 308280956}
   - {fileID: 1350472024}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4428,6 +4499,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5ac5d832-8ee1-4fc3-94b0-575b09f35c98
     m_ActionName: 'Player/ThrowKnife[/Keyboard/f]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1908918454}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRightClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d01c9b12-4e6f-4f0f-89ae-a5d1766ed86f
+    m_ActionName: 'Player/Right Click[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -4442,7 +4529,7 @@ Rigidbody:
   m_GameObject: {fileID: 1908918448}
   serializedVersion: 5
   m_Mass: 2.4
-  m_LinearDamping: 0
+  m_LinearDamping: 1
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -5052,7 +5139,7 @@ Transform:
   m_GameObject: {fileID: 2061259934}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.5858703, y: -1, z: 12.406971}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

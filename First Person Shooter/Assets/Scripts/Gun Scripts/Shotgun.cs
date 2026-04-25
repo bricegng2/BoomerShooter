@@ -17,7 +17,7 @@ public class Shotgun : PlayerGun
         playerHUD.UpdateAmmo(ammo);
     }
 
-    public override void Shoot()
+    protected override void Shoot()
     {
         if (ammo > 0)
         {

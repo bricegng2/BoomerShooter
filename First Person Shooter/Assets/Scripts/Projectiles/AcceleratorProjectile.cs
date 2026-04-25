@@ -7,7 +7,7 @@ public class AcceleratorProjectile : MonoBehaviour
     float speed;
     Vector3 direction;
     float timeToDestroy;
-    int damage = Constants.c_accelerator_damage;
+    int damage;
 
     public int indexForDirection;
 

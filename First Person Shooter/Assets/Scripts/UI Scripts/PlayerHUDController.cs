@@ -24,7 +24,7 @@ public class PlayerHUDController : MonoBehaviour
     VisualElement acceleratorIcon;
     VisualElement rocketLauncherIcon;
     VisualElement grenadeLauncherIcon;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

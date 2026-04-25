@@ -19,7 +19,7 @@ public class Accelerator : PlayerGun
         playerHUD.UpdateAmmo(ammo);
     }
 
-    public override void Shoot()
+    protected override void Shoot()
     {
         if (isSelected == false)
         {

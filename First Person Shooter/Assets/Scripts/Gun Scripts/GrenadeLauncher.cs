@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GrenadeLauncher : PlayerGun
@@ -5,6 +6,8 @@ public class GrenadeLauncher : PlayerGun
     public ObjectPooling grenadeProjObjectPool;
 
     public GrenadeLauncherProjectile grenadeProjectilePrefab;
+
+    List<GrenadeLauncherProjectile> activeGrenades = new List<GrenadeLauncherProjectile>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
@@ -20,7 +23,7 @@ public class GrenadeLauncher : PlayerGun
         playerHUD.UpdateAmmo(ammo);
     }
 
-    public override void Shoot()
+    protected override void Shoot()
     {
         if (isSelected == false)
         {
@@ -42,12 +45,24 @@ public class GrenadeLauncher : PlayerGun
                 GrenadeLauncherProjectile proj = Instantiate(grenadeProjectilePrefab, position, Quaternion.LookRotation(player.playerCamera.transform.forward));
                 proj.ApplyForce();
                 grenadeProjObjectPool.AddObjectToPool(proj.gameObject);
+                activeGrenades.Add(proj);
             }
             else if (potentialProjectile != null)
             {
                 GrenadeLauncherProjectile proj = potentialProjectile.GetComponent<GrenadeLauncherProjectile>();
                 potentialProjectile.SetActive(true);
                 proj.Activate(position);
+            }
+        }
+    }
+
+    protected override void RightClick()
+    {
+        for (int i = 0; i < activeGrenades.Count; i++)
+        {
+            if (activeGrenades[i].gameObject.activeSelf == true)
+            {
+                activeGrenades[i].Explode();
             }
         }
     }
