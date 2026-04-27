@@ -47,17 +47,30 @@ public class PlayerController : MonoBehaviour
     public ObjectPooling throwingKnifeObjectPool;
 
     Vector3 moveDirection = Vector3.zero;
+
+    Quaternion targetRotation = Quaternion.identity;
+
+    public Parry parry;
+
+    public float parryCooldown;
+    public bool canParry;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         position = transform.position;
 
+        playerRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        playerRigidbody.freezeRotation = true;
+
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
 
         jump = new Vector3(0.0f, 4.0f, 0.0f);
 
+        parryCooldown = Constants.c_parry_cooldown;
+
+        canParry = true;
     }
 
     // Update is called once per frame
@@ -82,10 +95,22 @@ public class PlayerController : MonoBehaviour
 
         currentTilt = Mathf.Lerp(currentTilt, targetZ, Time.deltaTime * tiltSpeed);
 
-        transform.rotation = Quaternion.Euler(0, playerRotation.y, currentTilt);
+        targetRotation = Quaternion.Euler(0, playerRotation.y, currentTilt);
         playerCamera.transform.localRotation = Quaternion.Euler(playerRotation.x, 0, 0);
+
+        playerRigidbody.MoveRotation(targetRotation);
         // camera tilt
         // --------------------------------------------------------------------------------
+
+        if (canParry == false)
+        {
+            parryCooldown -= Time.deltaTime;
+            if (parryCooldown <= 0.0f)
+            {
+                canParry = true;
+                parryCooldown = Constants.c_parry_cooldown;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -110,12 +135,12 @@ public class PlayerController : MonoBehaviour
         {
             accelRate = deceleration;
         }
-        
-        velocity = Vector3.MoveTowards(velocity, targetVelocity, accelRate * Time.deltaTime);
 
-        Vector3 position = transform.position + velocity * Time.deltaTime;
+        Vector3 currentVelocity = new Vector3(playerRigidbody.linearVelocity.x, 0.0f, playerRigidbody.linearVelocity.z);
+        Vector3 velocityDelta = targetVelocity - currentVelocity;
 
-        playerRigidbody.MovePosition(position);
+        Vector3 clampedVelocityDelta = Vector3.ClampMagnitude(velocityDelta, accelRate * Time.fixedDeltaTime);
+        playerRigidbody.AddForce(clampedVelocityDelta, ForceMode.VelocityChange);
         // movement
         // --------------------------------------------------------------------------------
     }
@@ -235,6 +260,8 @@ public class PlayerController : MonoBehaviour
                 if (door.doorData.doorType == EDoorType.End)
                 {
                     door.doorState = EDoorState.Opening;
+
+                    // show UI for end of level
                 }
             }
         }
@@ -300,6 +327,19 @@ public class PlayerController : MonoBehaviour
             
             DataManager.Instance.inventoryManager.throwingKnives--;
             Debug.Log("threw knife, remaining knives: " + DataManager.Instance.inventoryManager.throwingKnives);
+        }
+    }
+
+    public void OnParry(InputAction.CallbackContext context)
+    {
+        if (!context.started)
+        {
+            return;
+        }
+
+        if (canParry == true)
+        {
+            parry.PerformParry();
         }
     }
 

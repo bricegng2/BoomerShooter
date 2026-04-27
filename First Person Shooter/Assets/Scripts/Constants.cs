@@ -15,7 +15,8 @@ public static class Constants
 
 
     //player variables
-
+    public const float c_parry_duration = 0.35f;
+    public const float c_parry_cooldown = 10.0f;
 
     // gun variables
     public const int c_gun_defaultDamage = 0;

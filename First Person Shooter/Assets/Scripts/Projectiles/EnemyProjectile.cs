@@ -9,6 +9,8 @@ public class EnemyProjectile : MonoBehaviour
     Vector3 direction;
     float timeToDestroy;
 
+    bool isParried = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -48,13 +50,35 @@ public class EnemyProjectile : MonoBehaviour
         speed = Constants.c_enemy_projSpeed;
 
         timeToDestroy = Constants.c_enemy_timeToDestroyProj;
+
+        isParried = false;
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            if (player.parry.parryCollider.enabled == true)
+            {
+                player.parry.ResetParry();
+
+                isParried = true;
+                
+                direction = player.playerCamera.transform.forward;
+                speed *= 3.0f;
+
+                Debug.Log("projectile parried | " + this.name + " | " + this.gameObject.activeSelf);
+                return;
+            }
             player.DoDamage(Constants.c_enemy_projDamage);
+            this.gameObject.SetActive(false);
+        }
+        else if (other.gameObject.CompareTag("Enemy") && isParried == true)
+        {
+            Enemy enemy = other.GetComponent<Enemy>();
+
+            enemy.DoDamage(Constants.c_enemy_projDamage);
+
             this.gameObject.SetActive(false);
         }
     }

@@ -1,18 +1,18 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgb(140, 140, 140); height: 163px; max-height: 163px; min-height: 163px; max-width: 1920px; min-width: 1920px; width: 1920px; top: 917px; align-items: auto; align-self: center; justify-content: center; flex-direction: row;">
-        <ui:VisualElement name="ArmourStuff" style="flex-grow: 1; width: 200px; align-items: center; align-self: center; justify-content: center; flex-direction: column; position: relative; margin-left: 40px; margin-right: 40px; max-width: 200px; min-width: 200px;">
+        <ui:VisualElement name="ArmourStuff" style="flex-grow: 1; width: 150px; align-items: center; align-self: center; justify-content: center; flex-direction: column; position: relative; margin-left: 40px; margin-right: 40px; max-width: 150px; min-width: 150px;">
             <ui:Label text="999" name="ArmourNumber" style="height: auto; width: auto; font-size: 77px; align-items: center; justify-content: flex-start; align-self: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; top: auto; bottom: auto; position: relative; align-content: auto; white-space: nowrap; -unity-text-align: middle-center;"/>
             <ui:Label text="Armour" name="ArmourText" style="font-size: 43px;"/>
         </ui:VisualElement>
-        <ui:VisualElement name="HealthStuff" style="flex-grow: 1; width: 200px; align-items: center; align-self: center; justify-content: center; flex-direction: column; position: relative; margin-left: 40px; margin-right: 40px; max-width: 200px; min-width: 200px;">
+        <ui:VisualElement name="HealthStuff" style="flex-grow: 1; width: 150px; align-items: center; align-self: center; justify-content: center; flex-direction: column; position: relative; margin-left: 40px; margin-right: 40px; max-width: 150px; min-width: 150px;">
             <ui:Label text="100" name="HealthNumber" style="height: auto; width: auto; font-size: 77px; align-items: center; justify-content: flex-start; align-self: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; top: auto; bottom: auto; position: relative; align-content: auto; white-space: nowrap; -unity-text-align: middle-center;"/>
             <ui:Label text="Health" name="HealthText" style="font-size: 43px;"/>
         </ui:VisualElement>
-        <ui:VisualElement name="AmmoStuff" style="flex-grow: 1; width: 200px; align-items: center; align-self: center; justify-content: center; flex-direction: column; position: relative; margin-left: 40px; margin-right: 40px; max-width: 200px; min-width: 200px;">
+        <ui:VisualElement name="AmmoStuff" style="flex-grow: 1; width: 150px; align-items: center; align-self: center; justify-content: center; flex-direction: column; position: relative; margin-left: 40px; margin-right: 40px; max-width: 150px; min-width: 150px;">
             <ui:Label text="999" name="AmmoNumber" style="height: auto; width: auto; font-size: 77px; align-items: center; justify-content: flex-start; align-self: center; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; top: auto; bottom: auto; position: relative; align-content: auto; white-space: nowrap; -unity-text-align: middle-center;"/>
             <ui:Label text="Ammo" name="AmmoText" style="font-size: 43px;"/>
         </ui:VisualElement>
-        <ui:VisualElement name="Keys" style="flex-grow: 1; width: 268px; min-width: 200px; max-width: none; position: absolute; right: 180px; height: 163px; min-height: 163px; max-height: 163px; flex-direction: row; align-self: auto; align-items: stretch; top: 0; justify-content: center; align-content: center;">
+        <ui:VisualElement name="Keys" style="flex-grow: 1; width: 268px; min-width: 200px; max-width: none; position: absolute; right: 125px; height: 163px; min-height: 163px; max-height: 163px; flex-direction: row; align-self: auto; align-items: stretch; top: 0; justify-content: center; align-content: center;">
             <ui:VisualElement name="RedKey" style="flex-grow: 1; background-color: rgb(190, 56, 56); height: 76px; width: 76px; min-width: 76px; max-width: 76px; max-height: 76px; min-height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; align-self: auto; justify-content: center;"/>
             <ui:VisualElement name="BlueKey" style="flex-grow: 1; background-color: rgb(45, 46, 185); width: 76px; min-width: 76px; max-width: 76px; height: 76px; min-height: 76px; max-height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; align-content: flex-start; justify-content: center;"/>
             <ui:VisualElement name="YellowKey" style="flex-grow: 1; background-color: rgb(207, 184, 36); width: 76px; min-width: 76px; max-width: 76px; max-height: 76px; min-height: 76px; height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 23%; justify-content: center;"/>
@@ -36,6 +36,10 @@
             <ui:VisualElement name="GrenadeLauncherIcon" style="flex-grow: 1; background-color: rgb(242, 169, 0); width: 66px; min-width: 66px; max-width: 66px; max-height: 66px; min-height: 66px; height: 66px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: 25%; justify-content: center;">
                 <ui:Label text="6" style="-unity-text-align: upper-center; font-size: 47px; -unity-font-style: bold;"/>
             </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Parry" style="flex-grow: 1; background-color: rgb(207, 184, 36); width: 76px; min-width: 76px; max-width: 76px; max-height: 76px; min-height: 76px; height: 76px; margin-top: 7px; margin-right: 7px; margin-bottom: 7px; margin-left: 7px; top: auto; justify-content: center; bottom: 23%; left: 65px;">
+            <ui:VisualElement name="CooldownOverlay" style="flex-grow: 1; position: absolute; width: 76px; min-width: 76px; max-width: 76px; height: 100%; min-height: 0%; max-height: 100%; background-color: rgba(106, 106, 106, 0.69); opacity: 1; top: auto; bottom: 0;"/>
+            <ui:Label text="Q" name="Q" style="-unity-text-align: upper-center; font-size: 47px; -unity-font-style: bold;"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

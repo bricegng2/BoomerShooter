@@ -55,8 +55,6 @@ public class RocketLauncherProjectile : ExplosiveProjectile
             GameObject dumpster = other.gameObject;
 
             dumpster.GetComponent<Rigidbody>().AddForce(player.playerCamera.transform.forward * 20.0f, ForceMode.Impulse);
-
-            this.gameObject.SetActive(false);
         }
         
         Vector3 explosionPosition = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
@@ -111,7 +109,7 @@ public class RocketLauncherProjectile : ExplosiveProjectile
             }
         }
         
-        if (this.gameObject.activeSelf == true)
+        //if (this.gameObject.activeSelf == true)
         {
             this.gameObject.SetActive(false);
         }

@@ -25,6 +25,8 @@ public class PlayerHUDController : MonoBehaviour
     VisualElement rocketLauncherIcon;
     VisualElement grenadeLauncherIcon;
 
+    VisualElement parryCooldownOverlay;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,6 +47,8 @@ public class PlayerHUDController : MonoBehaviour
         rocketLauncherIcon = container.Q<VisualElement>("RocketLauncherIcon");
         grenadeLauncherIcon = container.Q<VisualElement>("GrenadeLauncherIcon");
 
+        parryCooldownOverlay = container.Q<VisualElement>("CooldownOverlay");
+
         UpdateKeys();
         UpdateGunIcons();
 
@@ -56,7 +60,15 @@ public class PlayerHUDController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (player.canParry == false)
+        {
+            parryCooldownOverlay.style.height = Length.Percent((Constants.c_parry_cooldown - player.parryCooldown) / Constants.c_parry_cooldown * 100.0f);
+            Debug.Log("Parry cooldown: " + player.parryCooldown);
+        } 
+        else
+        {
+            parryCooldownOverlay.style.height = Length.Percent(0);
+        }
     }
 
     public void UpdateHealth(int newHealth)
