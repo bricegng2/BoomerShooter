@@ -1,8 +1,11 @@
+using System.Data;
 using UnityEngine;
 
 public static class Constants
 {
     //enemy variables
+    
+    // basic/common enemy variables
     public const float c_enemy_projFireRate = 5.0f;
     public const float c_enemy_projSpeed = 5.0f;
     public const float c_enemy_timeToDestroyProj = 5.0f;
@@ -12,11 +15,20 @@ public static class Constants
     public const int c_enemy_projDamage = 5;
     public const int c_enemy_baseHealth = 500; // 30
     public const float c_enemy_timerToResetMaterial = 0.1f;
+    // flame thrower enemy variables
+    public const float c_flameThrowerEnemy_fireRate = 0.5f;
+    public const float c_flameThrowerEnemy_distanceToPlayerWhenPlayerDest = 25.0f;
+    public const float c_flameThrowerEnemy_distanceToPlayerWhenRandomDest = 10.0f;
+    public const int c_flameThrowerEnemy_fireDamage = 5;
+    public const int c_flameThrowerEnemy_baseHealth = 500; // 40
 
 
-    //player variables
+    // player variables
     public const float c_parry_duration = 0.35f;
     public const float c_parry_cooldown = 10.0f;
+    // bruning status effect
+    public const int c_burning_damage = 2;
+    public const float c_burning_burnRate = 0.5f;
 
     // gun variables
     public const int c_gun_defaultDamage = 0;

@@ -41,7 +41,7 @@ public class Parry : MonoBehaviour
 
     public void PerformParry()
     {
-        Time.timeScale = 0.5f;
+        //Time.timeScale = 0.5f;
         parryCollider.enabled = true;
         player.canParry = false;
         player.parryCooldown = Constants.c_parry_cooldown;
@@ -49,7 +49,7 @@ public class Parry : MonoBehaviour
 
     public void ResetParry()
     {
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;
         parryCollider.enabled = false;
         parryDuration = Constants.c_parry_duration;
     }

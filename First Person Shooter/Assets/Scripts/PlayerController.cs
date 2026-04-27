@@ -2,6 +2,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum EStatusEffect
+{
+    None,
+    Burning,
+}
+
 public class PlayerController : MonoBehaviour
 {
     Vector3 position;
@@ -54,6 +60,10 @@ public class PlayerController : MonoBehaviour
 
     public float parryCooldown;
     public bool canParry;
+
+    public EStatusEffect currentStatusEffect;
+    int burnDamage;
+    float burnRate;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -71,6 +81,10 @@ public class PlayerController : MonoBehaviour
         parryCooldown = Constants.c_parry_cooldown;
 
         canParry = true;
+
+        currentStatusEffect = EStatusEffect.None;
+        burnDamage = Constants.c_burning_damage;
+        burnRate = Constants.c_burning_burnRate;
     }
 
     // Update is called once per frame
@@ -102,6 +116,7 @@ public class PlayerController : MonoBehaviour
         // camera tilt
         // --------------------------------------------------------------------------------
 
+
         if (canParry == false)
         {
             parryCooldown -= Time.deltaTime;
@@ -109,6 +124,16 @@ public class PlayerController : MonoBehaviour
             {
                 canParry = true;
                 parryCooldown = Constants.c_parry_cooldown;
+            }
+        }
+
+        if (currentStatusEffect == EStatusEffect.Burning)
+        {
+            burnRate -= Time.deltaTime;
+            if (burnRate <= 0.0f)
+            {
+                DoDamage(burnDamage);
+                burnRate = Constants.c_burning_burnRate;
             }
         }
     }

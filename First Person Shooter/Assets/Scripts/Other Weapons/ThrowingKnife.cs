@@ -55,7 +55,7 @@ public class ThrowingKnife : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            EnemyBase enemy = collision.gameObject.GetComponent<EnemyBase>();
 
             enemy.DoDamage(enemy.health); // one hit kill
         }

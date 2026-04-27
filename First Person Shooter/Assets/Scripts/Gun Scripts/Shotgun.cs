@@ -29,7 +29,7 @@ public class Shotgun : PlayerGun
             {
                 if (hits[i].collider.CompareTag("Enemy"))
                 {
-                    Enemy enemy = hits[i].collider.GetComponent<Enemy>();
+                    EnemyBase enemy = hits[i].collider.GetComponent<EnemyBase>();
 
                     float distanceToEnemy = Vector3.Distance(player.transform.position, enemy.transform.position);
                     

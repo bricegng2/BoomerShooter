@@ -37,11 +37,11 @@ public class RocketLauncherProjectile : ExplosiveProjectile
 
     void OnTriggerEnter(Collider other)
     {
-        Enemy hitEnemy = null;
+        EnemyBase hitEnemy = null;
 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            EnemyBase enemy = other.gameObject.GetComponent<EnemyBase>();
             hitEnemy = enemy;
 
             enemy.HandlePhysics();
@@ -85,7 +85,7 @@ public class RocketLauncherProjectile : ExplosiveProjectile
             {
                 if (objectsForPhysics[i].CompareTag("Enemy"))
                 {
-                    Enemy enemy = objectsForPhysics[i].GetComponent<Enemy>();
+                    EnemyBase enemy = objectsForPhysics[i].GetComponent<EnemyBase>();
 
                     if (enemy == hitEnemy) // if the enemy is the one that was directly hit by the rocket, skip it
                     {

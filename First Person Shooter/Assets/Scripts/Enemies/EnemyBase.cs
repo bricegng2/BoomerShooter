@@ -15,37 +15,30 @@ public enum EEnemyDestination
     RandomDestination,
 }
 
-public class Enemy : MonoBehaviour
+public class EnemyBase : MonoBehaviour
 {
     public int health;
 
-    PlayerController player;
+    protected PlayerController player;
 
     public NavMeshAgent agent;
 
-    public EnemyProjectile projectile;
-    float timerToFireProj;
+    protected EEnemyState currentState = EEnemyState.Idle;
+    protected EEnemyDestination currentDestinationType = EEnemyDestination.None;
+    protected float timerToSwitchDestination;
 
-    EEnemyState currentState = EEnemyState.Idle;
-    EEnemyDestination currentDestinationType = EEnemyDestination.None;
-    float timerToSwitchDestination;
-
-    bool isDamaged = false;
-    float timerToResetMaterial;
-    MeshRenderer meshRenderer;
-    Material defaultMaterial;
-    [SerializeField]
-    Material damagedMaterial;
-
-    public ObjectPooling projectileObjectPool;
-
-    bool isPhysicsHappening = false;
-    bool hasPhysicsLaunched = false;
-
-    Rigidbody rb;
+    protected bool isDamaged = false;
+    protected float timerToResetMaterial;
+    protected MeshRenderer meshRenderer;
+    protected Material defaultMaterial;
+    [SerializeField] protected Material damagedMaterial;
+    
+    protected bool isPhysicsHappening = false;
+    protected bool hasPhysicsLaunched = false;
+    protected Rigidbody rb;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         player = FindAnyObjectByType<PlayerController>();
         meshRenderer = GetComponent<MeshRenderer>();
@@ -56,23 +49,15 @@ public class Enemy : MonoBehaviour
         detectionZone.isTrigger = true;
         detectionZone.radius = Constants.c_enemy_distanceToPlayerWhenRandomDest;
 
-        SetDestination(EEnemyDestination.RandomDestination);
-
-        timerToFireProj = Constants.c_enemy_projFireRate;
-
-        timerToSwitchDestination = Constants.c_enemy_timeToSwitchDestination;
-
-        health = Constants.c_enemy_baseHealth;
-
-        timerToResetMaterial = Constants.c_enemy_timerToResetMaterial;
-
         rb = GetComponent<Rigidbody>();
+
+        SetDestination(EEnemyDestination.RandomDestination); // put this into the parent class
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        if (agent.enabled == true && isPhysicsHappening == false)
+        if (PathfindingRequirementCheck() == true)
         {
             if (currentDestinationType == EEnemyDestination.RandomDestination)
             {
@@ -90,43 +75,26 @@ public class Enemy : MonoBehaviour
             }
             else if (currentDestinationType == EEnemyDestination.PlayerDestination)
             {
-                SetDestination(EEnemyDestination.PlayerDestination);
-
-                timerToFireProj -= 0.1f;
-                if (timerToFireProj <= 0.0f)
-                {
-                    if (projectile != null)
-                    {
-                        GameObject potentialProjectile = projectileObjectPool.GetPooledObject();
-
-                        if (potentialProjectile == null)
-                        {
-                            EnemyProjectile proj = Instantiate(projectile, transform.position, Quaternion.identity);
-                            projectileObjectPool.AddObjectToPool(proj.gameObject);
-                        }
-                        else if (potentialProjectile != null)
-                        {
-                            EnemyProjectile proj = potentialProjectile.GetComponent<EnemyProjectile>();
-                            proj.Activate(this);
-                            potentialProjectile.SetActive(true);
-                        }
-                    }
-
-                    timerToFireProj = Constants.c_enemy_projFireRate;
-                }
+                WhenDestIsPlayer();
             }
         }
 
-        if (isDamaged)
+        ResetMaterialAfterDamage();
+    }
+
+    protected virtual void WhenDestIsPlayer()// what an awful name
+    {
+        // this is empty because the child class with have the code that goes in here
+        // and its not abstract because not all children will use it
+    }
+
+    protected bool PathfindingRequirementCheck()
+    {
+        if (agent.enabled == true && isPhysicsHappening == false)
         {
-            timerToResetMaterial -= Time.deltaTime;
-            if (timerToResetMaterial <= 0.0f)
-            {
-                isDamaged = false;
-                timerToResetMaterial = Constants.c_enemy_timerToResetMaterial;
-                meshRenderer.material = defaultMaterial;
-            }
+            return true;
         }
+        return false;
     }
 
     void FixedUpdate()
@@ -167,8 +135,36 @@ public class Enemy : MonoBehaviour
         rb.useGravity = true;
     }
 
+    void ResetMaterialAfterDamage()
+    {
+        if (isDamaged)
+        {
+            timerToResetMaterial -= Time.deltaTime;
+            if (timerToResetMaterial <= 0.0f)
+            {
+                isDamaged = false;
+                timerToResetMaterial = Constants.c_enemy_timerToResetMaterial;
+                meshRenderer.material = defaultMaterial;
+            }
+        }
+    }
 
-    void SetDestination(EEnemyDestination destinationType)
+    public void DoDamage(int damage)
+    {
+        health -= damage;
+
+        isDamaged = true;
+        meshRenderer.material = damagedMaterial;
+
+        if (health <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
+        // add this object to a pool possibly
+        Debug.Log(health);
+    }
+
+    protected void SetDestination(EEnemyDestination destinationType)
     {
         if (agent.enabled == true && isPhysicsHappening == false)
         {
@@ -193,24 +189,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void DoDamage(int damage)
+    void OnTriggerStay(Collider other)
     {
-        health -= damage;
-
-        isDamaged = true;
-        meshRenderer.material = damagedMaterial;
-
-        if (health <= 0)
-        {
-            this.gameObject.SetActive(false);
-        }
-        // add this object to a pool possibly
-        Debug.Log(health);
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<PlayerController>() != null)
+        if (other.gameObject.CompareTag("Player"))
         {
             SetDestination(EEnemyDestination.PlayerDestination);
         }
@@ -218,14 +199,9 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerController>() != null)
+        if (other.gameObject.CompareTag("Player"))
         {
             SetDestination(EEnemyDestination.RandomDestination);
         }
-    }
-
-    void SetState()
-    {
-
     }
 }

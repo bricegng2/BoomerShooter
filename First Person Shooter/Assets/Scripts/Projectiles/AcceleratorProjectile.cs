@@ -55,7 +55,7 @@ public class AcceleratorProjectile : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = other.GetComponent<Enemy>();
+            EnemyBase enemy = other.GetComponent<EnemyBase>();
 
             enemy.DoDamage(damage);
 

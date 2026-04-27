@@ -64,7 +64,7 @@ public abstract class ExplosiveProjectile : Projectile
             {
                 if (objectsForPhysics[i].CompareTag("Enemy"))
                 {
-                    Enemy enemy = objectsForPhysics[i].GetComponent<Enemy>();
+                    EnemyBase enemy = objectsForPhysics[i].GetComponent<EnemyBase>();
 
                     enemy.HandlePhysics();
 

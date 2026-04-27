@@ -80,7 +80,7 @@ public abstract class PlayerGun : MonoBehaviour
             {
                 if (hitInfo.collider.CompareTag("Enemy"))
                 {
-                    Enemy enemy = hitInfo.collider.GetComponent<Enemy>();
+                    EnemyBase enemy = hitInfo.collider.GetComponent<EnemyBase>();
 
                     enemy.DoDamage(damage);
                 }

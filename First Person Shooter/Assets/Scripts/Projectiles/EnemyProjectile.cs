@@ -37,7 +37,7 @@ public class EnemyProjectile : MonoBehaviour
         }
     }
 
-    public void Activate(Enemy enemy)
+    public void Activate(EnemyBase enemy)
     {
         transform.position = enemy.transform.position;
 
@@ -75,7 +75,7 @@ public class EnemyProjectile : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Enemy") && isParried == true)
         {
-            Enemy enemy = other.GetComponent<Enemy>();
+            EnemyBase enemy = other.GetComponent<EnemyBase>();
 
             enemy.DoDamage(Constants.c_enemy_projDamage);
 
