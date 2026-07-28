@@ -81,18 +81,20 @@ public abstract class PlayerGun : MonoBehaviour
                 if (hitInfo.collider.CompareTag("Enemy"))
                 {
                     EnemyBase enemy = hitInfo.collider.GetComponent<EnemyBase>();
+                    
+                    Debug.Log(damage);
 
                     enemy.DoDamage(damage);
                 }
                 else if (hitInfo.collider.CompareTag("HeadCollider"))
                 {
-                    EnemyBase enemy = hitInfo.collider.GetComponent<EnemyBase>();
+                    EnemyHeadCollider enemyHeadCollider = hitInfo.collider.GetComponent<EnemyHeadCollider>();
 
                     float newDamage = damage * 1.5f;
 
                     Debug.Log((int)newDamage);
 
-                    enemy.DoDamage((int)newDamage);
+                    enemyHeadCollider.DoDamage((int)newDamage);
                 }
                 else if (hitInfo.collider.CompareTag("Dumpster"))
                 {

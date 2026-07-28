@@ -230,6 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7816205303043640240}
   - component: {fileID: 6475642119006076360}
+  - component: {fileID: 5763627857841090501}
   m_Layer: 0
   m_Name: HeadCollider
   m_TagString: HeadCollider
@@ -273,3 +274,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.4
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &5763627857841090501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7621850972469294277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34aa4c1d0a28c8b019157826648e9ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  parent: {fileID: 1110359162224148846}

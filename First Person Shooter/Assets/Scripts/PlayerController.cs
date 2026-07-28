@@ -289,6 +289,11 @@ public class PlayerController : MonoBehaviour
                     // show UI for end of level
                 }
             }
+
+            else if (hitInfo.collider.CompareTag("InteractableNPC"))
+            {
+                
+            }
         }
     }
 

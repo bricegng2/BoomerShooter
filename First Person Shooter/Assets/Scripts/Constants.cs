@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class Constants
 {
-    //enemy variables
+    // enemy variables
     
     // basic/common enemy variables
     public const float c_enemy_projFireRate = 5.0f;
@@ -70,7 +70,10 @@ public static class Constants
     public const float c_grenadeLauncher_explosionRadius = 4.0f;
 
 
-    //pick up variables
+    // pick up variables
     public const int c_pickUp_pistolAmmoAmount = 10;
     public const int c_pickUp_armourAmount = 10;
+
+    // ui constants
+    public const float c_timeToNextCharacter = 0.07f;
 }

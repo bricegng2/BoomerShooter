@@ -18,6 +18,7 @@ TagManager:
   - EnemyProjectile
   - ParryBox
   - HeadCollider
+  - InteractableNPC
   layers:
   - Default
   - TransparentFX
