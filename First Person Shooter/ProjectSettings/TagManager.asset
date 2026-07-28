@@ -17,6 +17,7 @@ TagManager:
   - Wall
   - EnemyProjectile
   - ParryBox
+  - HeadCollider
   layers:
   - Default
   - TransparentFX

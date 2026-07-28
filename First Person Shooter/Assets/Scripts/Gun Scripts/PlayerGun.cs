@@ -84,6 +84,16 @@ public abstract class PlayerGun : MonoBehaviour
 
                     enemy.DoDamage(damage);
                 }
+                else if (hitInfo.collider.CompareTag("HeadCollider"))
+                {
+                    EnemyBase enemy = hitInfo.collider.GetComponent<EnemyBase>();
+
+                    float newDamage = damage * 1.5f;
+
+                    Debug.Log((int)newDamage);
+
+                    enemy.DoDamage((int)newDamage);
+                }
                 else if (hitInfo.collider.CompareTag("Dumpster"))
                 {
                     GameObject dumpster = hitInfo.collider.gameObject;
